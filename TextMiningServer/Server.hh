@@ -9,7 +9,14 @@
 #ifndef SERVER_HH
 # define SERVER_HH
 
-
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <signal.h>
+# include <string>
+# include <iostream>
+# include <pthread.h>
 
 /*!
  *	\enum e_serverState
@@ -28,6 +35,13 @@ typedef enum
 e_serverState;
 
 
+/*!
+ *	\brief Gestion des requêtes client
+ *
+ *	Méthode s'occupant de gérer les requêtes effectuées par les clients connectés.
+ */
+void	*requestHandler(void *data);
+
 
 /*!
  *	\class Server
@@ -40,10 +54,10 @@ class Server {
 	
 private:
 	
-	int				no_port;		/*!< Numéro du port d'écoute */
-	e_serverState	state;			/*!< État courant du serveur */
-	//SOCKADDR_IN		ownAddr;		/*!< Adresse du server */
-	//SOCKET			ownSocket;		/*!< Socket d'écoute */
+	int				port;				/*!< Numéro du port d'écoute */
+	e_serverState	state;				/*!< État courant du serveur */
+	sockaddr_in		serverAddr;			/*!< Adresse du server */
+	int				listeningSocket;	/*!< Socket d'écoute */
 	
 	
 public:
@@ -57,7 +71,7 @@ public:
 	/*!
 	 *	\brief Destructeur de la classe Server
 	 */
-	virtual ~Server ();
+	~Server ();
 	
 	/*!
 	 *	\brief Initialisation du serveur
@@ -73,7 +87,7 @@ public:
 	 *	Méthode démarrant le serveur en écoutant sur le port
 	 *	les connexions entrantes.
 	 */
-	void	start();
+	int	start();
 	
 	/*!
 	 *	\brief Mise en pause du serveur
