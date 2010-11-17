@@ -6,6 +6,20 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4BF44A7712941F2800194645 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4BF44A8012941F3E00194645 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				4BF44A7612941F2800194645 /* Generate Documentation (HTML, Latex, DocSet) */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
@@ -24,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4BF44A9A1294202700194645 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* TextMiningCompiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TextMiningCompiler; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -41,6 +56,7 @@
 		08FB7794FE84155DC02AAC07 /* TextMiningCompiler */ = {
 			isa = PBXGroup;
 			children = (
+				4BF44A9B1294203000194645 /* Others files */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -62,6 +78,14 @@
 				8DD76F6C0486A84900D96B5E /* TextMiningCompiler */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4BF44A9B1294203000194645 /* Others files */ = {
+			isa = PBXGroup;
+			children = (
+				4BF44A9A1294202700194645 /* Doxyfile */,
+			);
+			name = "Others files";
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* Documentation */ = {
@@ -105,9 +129,27 @@
 			projectRoot = "";
 			targets = (
 				8DD76F620486A84900D96B5E /* TextMiningCompiler */,
+				4BF44A7712941F2800194645 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4BF44A7612941F2800194645 /* Generate Documentation (HTML, Latex, DocSet) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Documentation (HTML, Latex, DocSet)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Localisation de doxygen et dot\nDOXYGEN_PATH=${HOME}/Applications/Doxygen.app/Contents/Resources\nPATH=${DOXYGEN_PATH}:${PATH}\nexport PATH\n\n# Génération de la documentation\ndoxygen || exit 1\n\n# Génération du Documentation Set\nmake -C Documentation/html install || exit 1\n\n# Ouverture du Documentation Set dans Xcode\nDOCSET_PATH=Library/Developer/Shared/Documentation/DocSets\nopen $HOME/$DOCSET_PATH/fr.exemple.textminingcompiler.docset || exit 1\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8DD76F640486A84900D96B5E /* Sources */ = {
@@ -172,6 +214,27 @@
 			};
 			name = Release;
 		};
+		4BF44A7812941F2800194645 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Documentation;
+			};
+			name = Debug;
+		};
+		4BF44A7912941F2800194645 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Documentation;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -189,6 +252,15 @@
 			buildConfigurations = (
 				1DEB923608733DC60010E9CD /* Debug */,
 				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BF44A8012941F3E00194645 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BF44A7812941F2800194645 /* Debug */,
+				4BF44A7912941F2800194645 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
