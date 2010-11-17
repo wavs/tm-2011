@@ -7,6 +7,7 @@
  **/
 
 #include <iostream>
+#include "Server.hh"
 
 int main (int argc, char * const argv[]) {
 
@@ -15,8 +16,19 @@ int main (int argc, char * const argv[]) {
 	// Dictionary loader
 	
 	// Server initialization
+	Server	*server = new Server(2342);
+	server->initialize();
+	if ( server->start() == 1)
+	{
+		std::cout << "ERROR: server couldn't start." << std::endl;
+		delete server;
+		return 1;
+	}
 	
 	// Server runloop
+	
+	// Free memory
+	delete server;
 	
     return 0;
 }
