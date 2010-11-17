@@ -6,8 +6,23 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4BF44A4312941B7C00194645 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4BF44A4B12941B9000194645 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				4BF44A4212941B7C00194645 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		4BF44A3F1294100C00194645 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44A3E1294100C00194645 /* Server.cc */; };
+		8DD76F650486A84900D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,7 +38,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		08FB7796FE84155DC02AAC07 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
+		4BF44A3D1294100C00194645 /* Server.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Server.hh; sourceTree = "<group>"; };
+		4BF44A3E1294100C00194645 /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
+		4BF44A4E12941C4A00194645 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* TextMiningServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TextMiningServer; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -41,6 +59,7 @@
 		08FB7794FE84155DC02AAC07 /* TextMiningServer */ = {
 			isa = PBXGroup;
 			children = (
+				4BF44A4F12941C6800194645 /* Others files */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -51,7 +70,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				08FB7796FE84155DC02AAC07 /* main.cpp */,
+				4BF44A3C12940FFF00194645 /* Server */,
+				08FB7796FE84155DC02AAC07 /* main.cc */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -62,6 +82,23 @@
 				8DD76F6C0486A84900D96B5E /* TextMiningServer */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4BF44A3C12940FFF00194645 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				4BF44A3D1294100C00194645 /* Server.hh */,
+				4BF44A3E1294100C00194645 /* Server.cc */,
+			);
+			name = Server;
+			sourceTree = "<group>";
+		};
+		4BF44A4F12941C6800194645 /* Others files */ = {
+			isa = PBXGroup;
+			children = (
+				4BF44A4E12941C4A00194645 /* Doxyfile */,
+			);
+			name = "Others files";
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* Documentation */ = {
@@ -105,16 +142,34 @@
 			projectRoot = "";
 			targets = (
 				8DD76F620486A84900D96B5E /* TextMiningServer */,
+				4BF44A4312941B7C00194645 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4BF44A4212941B7C00194645 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Localisation de doxygen et dot\nDOXYGEN_PATH=${HOME}/Applications/Doxygen.app/Contents/Resources\nPATH=${DOXYGEN_PATH}:${PATH}\nexport PATH\n\n# Génération de la documentation\ndoxygen || exit 1\n\n# Génération du Documentation Set\nmake -C Documentation/html install || exit 1\n\n# Ouverture du Documentation Set dans Xcode\nDOCSET_PATH=Library/Developer/Shared/Documentation/DocSets\nopen $HOME/$DOCSET_PATH/fr.exemple.textminingserver.docset || exit 1\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8DD76F640486A84900D96B5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DD76F650486A84900D96B5E /* main.cpp in Sources */,
+				8DD76F650486A84900D96B5E /* main.cc in Sources */,
+				4BF44A3F1294100C00194645 /* Server.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +227,27 @@
 			};
 			name = Release;
 		};
+		4BF44A4412941B7C00194645 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Documentation;
+			};
+			name = Debug;
+		};
+		4BF44A4512941B7C00194645 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Documentation;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -189,6 +265,15 @@
 			buildConfigurations = (
 				1DEB923608733DC60010E9CD /* Debug */,
 				1DEB923708733DC60010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BF44A4B12941B9000194645 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BF44A4412941B7C00194645 /* Debug */,
+				4BF44A4512941B7C00194645 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
