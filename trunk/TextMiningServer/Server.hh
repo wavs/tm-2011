@@ -18,6 +18,9 @@
 # include <iostream>
 # include <pthread.h>
 
+# include "Client.hh"
+# include "ClientFactory.hh"
+
 /*!
  *	\enum e_serverState
  *	\brief Statuts du serveur.

@@ -9,14 +9,18 @@
 #include "ClientFactory.hh"
 
 ClientFactory::ClientFactory ()
-{}
+{
+	_client_unique_id = 0;
+}
 
 ClientFactory::~ClientFactory ()
 {}
 
-void
-ClientFactory::createClientInstance()
+Client
+*ClientFactory::createClientInstance(int sock, sockaddr_in	*addr)
 {
-	// FIXME
 	++_client_unique_id;
+	Client	*newClient = new Client(_client_unique_id, sock, addr);
+	
+	return newClient;
 }
