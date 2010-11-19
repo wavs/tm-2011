@@ -3,7 +3,7 @@
  *	\author Thomas Ait-taleb
  *	\version 0.1
  *	\date 17 novembre 2010
- *	\brief Declaration of Server class
+ *	\brief Déclaration de la classe Server
  */
 
 #ifndef SERVER_HH

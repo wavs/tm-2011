@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		4BF44A3F1294100C00194645 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44A3E1294100C00194645 /* Server.cc */; };
+		4BF44B9812944BAE00194645 /* DataManager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44B9712944BAE00194645 /* DataManager.cc */; };
+		4BF44D59129494D300194645 /* libboost_unit_test_framework.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BF44D58129494D300194645 /* libboost_unit_test_framework.a */; };
 		8DD76F650486A84900D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,10 @@
 		4BF44A3D1294100C00194645 /* Server.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Server.hh; sourceTree = "<group>"; };
 		4BF44A3E1294100C00194645 /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		4BF44A4E12941C4A00194645 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
+		4BF44B9712944BAE00194645 /* DataManager.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataManager.cc; sourceTree = "<group>"; };
+		4BF44B9D12944D0300194645 /* DataManager.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataManager.hh; sourceTree = "<group>"; };
+		4BF44BAD12944FE500194645 /* Singleton.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Singleton.hh; sourceTree = "<group>"; };
+		4BF44D58129494D300194645 /* libboost_unit_test_framework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_unit_test_framework.a; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* TextMiningServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TextMiningServer; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -50,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BF44D59129494D300194645 /* libboost_unit_test_framework.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +66,7 @@
 		08FB7794FE84155DC02AAC07 /* TextMiningServer */ = {
 			isa = PBXGroup;
 			children = (
+				4BF44D58129494D300194645 /* libboost_unit_test_framework.a */,
 				4BF44A4F12941C6800194645 /* Others files */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
@@ -70,6 +78,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				4BF44BAA12944FC600194645 /* Singleton */,
+				4BF44B92129449BA00194645 /* DataManager */,
 				4BF44A3C12940FFF00194645 /* Server */,
 				08FB7796FE84155DC02AAC07 /* main.cc */,
 			);
@@ -99,6 +109,23 @@
 				4BF44A4E12941C4A00194645 /* Doxyfile */,
 			);
 			name = "Others files";
+			sourceTree = "<group>";
+		};
+		4BF44B92129449BA00194645 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				4BF44B9D12944D0300194645 /* DataManager.hh */,
+				4BF44B9712944BAE00194645 /* DataManager.cc */,
+			);
+			name = DataManager;
+			sourceTree = "<group>";
+		};
+		4BF44BAA12944FC600194645 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				4BF44BAD12944FE500194645 /* Singleton.hh */,
+			);
+			name = Singleton;
 			sourceTree = "<group>";
 		};
 		C6859E8C029090F304C91782 /* Documentation */ = {
@@ -170,6 +197,7 @@
 			files = (
 				8DD76F650486A84900D96B5E /* main.cc in Sources */,
 				4BF44A3F1294100C00194645 /* Server.cc in Sources */,
+				4BF44B9812944BAE00194645 /* DataManager.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +214,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = TextMiningServer;
 			};
 			name = Debug;
@@ -197,6 +229,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/bin;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				PRODUCT_NAME = TextMiningServer;
 			};
 			name = Release;
@@ -207,9 +243,13 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 			};
@@ -220,8 +260,12 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 			};
