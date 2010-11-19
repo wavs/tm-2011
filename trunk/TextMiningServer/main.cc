@@ -32,3 +32,9 @@ int main (int argc, char * const argv[]) {
 	
     return 0;
 }
+
+void usage()
+{
+	printf("Usage: TextMiningServer port repertoryOfDataFile\n\n");
+	printf("       -h      Help\n");
+}

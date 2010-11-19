@@ -9,7 +9,11 @@
 #ifndef CLIENT_HH
 # define CLIENT_HH
 
+using namespace std;
+
 # include <netinet/in.h>
+# include <string>
+# include <iostream>
 
 /*!
  *	\class Client
@@ -58,6 +62,11 @@ public:
 	 *	\return retourne les informations relatives à l'adresse du client.
 	 */
 	sockaddr_in	*getAddress();
+	
+	/*!
+	 *	\brief Handler des commandes envoyées par les clients connectés
+	 */
+	int handleCommands(string *command);
 };
 
 #endif // !CLIENT_HH
