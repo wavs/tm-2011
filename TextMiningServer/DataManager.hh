@@ -13,6 +13,7 @@
 # include <string>
 # include <map>
 # include <vector>
+# include <sstream>
 # include "Singleton.hh"
 
 using namespace std;
@@ -96,9 +97,13 @@ public:
 	 *	orthographique afin de créer le flux JSON à envoyer au
 	 *	client connecté au serveur.
 	 *
-	 *	\return Flux de sortie contenant le flux JSON
+	 *	\return Chaine de caractères contenant le flux JSON
 	 */
-	ostream&	exportJSON(vector<s_result> *results);
+	string	exportJSON(vector<s_result*> *results);
+	
+	
+	// TEST FUNCTIONS ONLY
+	void TEST_exportJSON();
 	
 };
 

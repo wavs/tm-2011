@@ -55,11 +55,11 @@ Client::handleCommands(string *command)
 		std::cout << "	word = " << word << std::endl;
 		
 		// Récupération du DataManager
-		// FIXME
+		DataManager	*dataManager = DataManager::getInstance();
 		
 		// Traitement sur le Trie pour trouver les mots proches
 		// du mot recherché
-		// FIXME
+		dataManager->browseDataWithOptions(word, distance);
 		
 		// Raffinage des résultats
 		// FIXME
