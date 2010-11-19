@@ -15,6 +15,8 @@ using namespace std;
 # include <string>
 # include <iostream>
 
+# include "DataManager.hh"
+
 /*!
  *	\class Client
  *	\brief Classe représentant un client

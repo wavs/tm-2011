@@ -8,9 +8,20 @@
 
 #include <iostream>
 #include "Server.hh"
+#include "DataManager.hh"
+
+#define TESTS 0
 
 int main (int argc, char * const argv[]) {
 
+#if TESTS
+	
+	// Lancement des tests
+	DataManager	*dataManager = DataManager::getInstance();
+	dataManager->TEST_exportJSON();
+	
+#else
+	
 	// Arguments manager
 	
 	// Dictionary loader
@@ -29,6 +40,8 @@ int main (int argc, char * const argv[]) {
 	
 	// Free memory
 	delete server;
+	
+#endif
 	
     return 0;
 }
