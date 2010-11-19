@@ -9,7 +9,10 @@
 #ifndef CLIENTFACTORY_HH
 # define CLIENTFACTORY_HH
 
+# include <netinet/in.h>
+
 # include "Singleton.hh"
+# include "Client.hh"
 
 /*!
  *	\class ClientFactory
@@ -23,10 +26,7 @@ class ClientFactory : public Singleton<ClientFactory> {
 	
 private:
 	
-	static int	_client_unique_id;	/*!< Compteur des clients créés */
-	
-	
-public:
+	int	_client_unique_id;	/*!< Compteur des clients créés */
 	
 	/*!
 	 *	\brief Constructeur de la classe ClientFactory
@@ -38,12 +38,12 @@ public:
 	 */
 	~ClientFactory ();
 	
+public:
+	
 	/*!
 	 *	\brief Créateur de clients
 	 */
-	void createClientInstance();
+	Client	*createClientInstance(int sock, sockaddr_in	*addr);
 };
-
-int ClientFactory::_client_unique_id = 0;
 
 #endif // !CLIENTFACTORY_HH

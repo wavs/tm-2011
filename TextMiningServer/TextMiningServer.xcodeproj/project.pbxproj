@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4B62E7DE1296E218006A68E9 /* Client.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4B62E7DD1296E218006A68E9 /* Client.cc */; };
 		4B7359AD1296DB45005C147E /* ClientFactory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4B7359AC1296DB45005C147E /* ClientFactory.cc */; };
 		4BF44A3F1294100C00194645 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44A3E1294100C00194645 /* Server.cc */; };
 		4BF44B9812944BAE00194645 /* DataManager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44B9712944BAE00194645 /* DataManager.cc */; };
@@ -42,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cc; sourceTree = "<group>"; };
+		4B62E7DC1296E218006A68E9 /* Client.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Client.hh; sourceTree = "<group>"; };
+		4B62E7DD1296E218006A68E9 /* Client.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cc; sourceTree = "<group>"; };
 		4B7359AB1296DB45005C147E /* ClientFactory.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClientFactory.hh; sourceTree = "<group>"; };
 		4B7359AC1296DB45005C147E /* ClientFactory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientFactory.cc; sourceTree = "<group>"; };
 		4BF44A3D1294100C00194645 /* Server.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Server.hh; sourceTree = "<group>"; };
@@ -81,6 +84,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				4B62E7DB1296E207006A68E9 /* Client */,
 				4B7359AA1296DB1F005C147E /* ClientFactory */,
 				4BF44BAA12944FC600194645 /* Singleton */,
 				4BF44B92129449BA00194645 /* DataManager */,
@@ -96,6 +100,15 @@
 				8DD76F6C0486A84900D96B5E /* TextMiningServer */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4B62E7DB1296E207006A68E9 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				4B62E7DC1296E218006A68E9 /* Client.hh */,
+				4B62E7DD1296E218006A68E9 /* Client.cc */,
+			);
+			name = Client;
 			sourceTree = "<group>";
 		};
 		4B7359AA1296DB1F005C147E /* ClientFactory */ = {
@@ -212,6 +225,7 @@
 				4BF44A3F1294100C00194645 /* Server.cc in Sources */,
 				4BF44B9812944BAE00194645 /* DataManager.cc in Sources */,
 				4B7359AD1296DB45005C147E /* ClientFactory.cc in Sources */,
+				4B62E7DE1296E218006A68E9 /* Client.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

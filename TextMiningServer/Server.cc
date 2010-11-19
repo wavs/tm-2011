@@ -61,6 +61,7 @@ int Server::start ()
 	// Serveur runloop
 	while (state == Running)
 	{
+		Client		*currentClient;
 		sockaddr_in	clientAddr;
 		int			clientSocket;
 		pthread_t	clientThread;
@@ -74,12 +75,13 @@ int Server::start ()
 			return 1;
 		}
 		
-		// Log client informations
-		//std::cout	<< "Client connecté ::  IP : " << inet_ntoa(clientAddr.sin_addr)
-		//			<< " ,port = " << ntohs(clientAddr.sin_port) << std::endl;
+		// Création du client
+		ClientFactory	*clientFactory = ClientFactory::getInstance();
+		currentClient = clientFactory->createClientInstance(clientSocket, &clientAddr);
+		
 		
 		// Création du thread spécifique au client
-		if (pthread_create(&clientThread, NULL, requestHandler, (void*)&clientAddr) != 0)
+		if (pthread_create(&clientThread, NULL, requestHandler, (void*)currentClient) != 0)
 		{
 			std::cout << "ERROR: client thread creation." << std::endl;
 			close(listeningSocket);
@@ -99,11 +101,14 @@ void Server::stop ()
 
 void *requestHandler (void *data)
 {
-	sockaddr_in	*clientAddr = (sockaddr_in*)data;
+	Client	*client = (Client*)data;
 
 	// Test: affichage du port et de l'adresse IP du client
-	std::cout	<< "Client connecté ::  IP : " << inet_ntoa(clientAddr->sin_addr)
-				<< " ,port = " << ntohs(clientAddr->sin_port) << "\n" << std::endl;
+	std::cout	<< "Client connecté ::  IP : " << inet_ntoa(client->getAddress()->sin_addr)
+				<< " ,port = " << ntohs(client->getAddress()->sin_port) << "\n" << std::endl;
+	
+	while (true)
+		std::cout << "Client :: " << client->getIdentifier() << std::endl;
 	
 	return NULL;
 }
