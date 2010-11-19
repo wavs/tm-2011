@@ -99,16 +99,48 @@ void Server::pause ()
 void Server::stop ()
 {}
 
+# define BUFFER_SIZE 4096
+
 void *requestHandler (void *data)
 {
+	bool	isConnected = true;
 	Client	*client = (Client*)data;
 
 	// Test: affichage du port et de l'adresse IP du client
 	std::cout	<< "Client connecté ::  IP : " << inet_ntoa(client->getAddress()->sin_addr)
 				<< " ,port = " << ntohs(client->getAddress()->sin_port) << "\n" << std::endl;
 	
-	while (true)
+	while (isConnected)
+	{
 		std::cout << "Client :: " << client->getIdentifier() << std::endl;
+		
+		// Réception de la commande
+		char buffer[BUFFER_SIZE];
+		size_t ret;
+		ret = recv(client->getSocket(), buffer, BUFFER_SIZE, 0);
+		buffer[ret] = '\0';
+		
+		// Handling de la commande
+		string	*receivedCmd = new string(buffer, ret);
+		std::cout << "Received data: " << *receivedCmd << std::endl;
+		int status = client->handleCommands(receivedCmd);
+		
+		// Cas d'une commande exit de la part d'un client
+		if (status == 1)
+			isConnected = false;
+		
+		// Free memory
+		delete receivedCmd;
+	}
+	
+	// Fermeture du socket de communication
+	close(client->getSocket());
+	
+	// Free memory
+	// FIXME
+	
+	// Destruction du thread
+	pthread_exit(NULL);
 	
 	return NULL;
 }

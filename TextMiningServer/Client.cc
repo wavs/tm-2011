@@ -35,3 +35,61 @@ sockaddr_in
 {
 	return clientAddr;
 }
+
+int
+Client::handleCommands(string *command)
+{
+	// Commande "approx"
+	if ((command->length() > 11) &&
+		(command->compare(0, 7, "approx ") == 0) &&
+		((command->compare(7, 1, "0") == 0)
+		 || (command->compare(7, 1, "1") == 0)
+		 || (command->compare(7, 1, "2") == 0)))
+	{
+		int distance = atoi(command->substr(7, 1).c_str());
+		string word = command->substr(9, command->length() - 11);
+		
+		// DEBUG LOG
+		std::cout << "[APPROX COMMAND]" << std::endl;
+		std::cout << "	distance = " << distance << std::endl;
+		std::cout << "	word = " << word << std::endl;
+		
+		// Récupération du DataManager
+		// FIXME
+		
+		// Traitement sur le Trie pour trouver les mots proches
+		// du mot recherché
+		// FIXME
+		
+		// Raffinage des résultats
+		// FIXME
+		
+		// Export JSON
+		// FIXME
+		
+		// Envoi des résultats au client
+		// FIXME
+		
+	} else {
+		
+		// Commande "exit"
+		if (command->compare("exit\r\n") == 0)
+		{
+			// DEBUG LOG
+			std::cout << "[EXIT COMMAND]" << std::endl;
+			
+			return 1;
+		
+		} else {
+			
+			// Commande "dump"
+			if (command->compare("dump\r\n") == 0)
+			{
+				// DEBUG LOG
+				std::cout << "[DUMP COMMAND]" << std::endl;
+			}
+		}
+	}
+	
+	return 0;
+}
