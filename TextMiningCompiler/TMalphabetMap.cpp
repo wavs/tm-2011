@@ -49,6 +49,7 @@ void AlphabetMap::parseFileToAlphabet(std::string path)
 				this->addingWordCharToAlphabet(tokens[0]);
 			}
 		}
+		this->convertAlphabetToConvertionMap();
 		myFileStream.close();
 	}
 	else
@@ -67,7 +68,14 @@ void AlphabetMap::addingWordCharToAlphabet(std::string word)
 
 void AlphabetMap::convertAlphabetToConvertionMap(void)
 {
+	std::set<char>::iterator it;
+	char count = 1; /* because we shall not start at zero (to differentiate with initalisation*/
 	
+	for ( it=this->alphabet.begin() ; it != this->alphabet.end(); it++ )
+	{
+		this->convertionMap->at(*it) = count;
+		count++;
+	}
 }
 
 void AlphabetMap::initConvertionMap(void)
@@ -77,7 +85,6 @@ void AlphabetMap::initConvertionMap(void)
 }
 
 AlphabetMap::AlphabetMap(std::string path)
-
 {
 	this->initConvertionMap();
 	this->parseFileToAlphabet(path);
@@ -85,12 +92,14 @@ AlphabetMap::AlphabetMap(std::string path)
 
 AlphabetMap::~AlphabetMap()
 {
-	
+	delete this->convertionMap;
 }
 
 void AlphabetMap::printSizeOfProperties(void)
 {
-	
+	if (convertionMap)
+		std::cout << "convertionMap: "<< this->convertionMap->size() << std::endl;
+	std::cout << "alphabet:" << this->alphabet.size() << std::endl;	
 }
 
 void AlphabetMap::printAlphabet(void)
@@ -112,10 +121,22 @@ void AlphabetMap::printAlphabet(void)
 void AlphabetMap::printConvertionMap(void)
 
 {
+	std::vector<char>::iterator it;
+	int count = 0;
 	
+	std::cout << "ConvertionMap content:" << std::endl;
+	for ( it=this->convertionMap->begin() ; it != this->convertionMap->end(); it++ )
+	{
+		if (*it > 0) {
+		std::cout << (char)count << ":" << (int)*it << std::endl;		
+		}
+	
+		count++;
+	}	
+	std::cout << std::endl;
 }
 
 char AlphabetMap::getPosition(char position)
 {
-	return 0;
+	return this->convertionMap->at(position);
 }

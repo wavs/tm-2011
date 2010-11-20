@@ -52,6 +52,9 @@ void testOpenFile(std::string &filePath)
 {
 	AlphabetMap alphaMap(filePath);
 	alphaMap.printAlphabet();
+	alphaMap.printSizeOfProperties();
+	alphaMap.printConvertionMap();
+	std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
 }
 
 
