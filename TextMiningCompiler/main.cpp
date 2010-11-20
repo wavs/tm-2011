@@ -9,12 +9,15 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#include <new>
+
 
 #include "TMalphabetMap.h"
 #include "TMtrie.h"
 
 #define DEFAULTPATH "tm.out"
 
+#define PATH "/Users/gui/Documents/lectures EPITA/ING3/TextMining/textmining/Projet/test.txt"
 
 void testMap(void)
 {
@@ -51,13 +54,16 @@ void testSet(void)
 
 void testOpenFile(std::string &filePath)
 {
-	AlphabetMap alphaMap(filePath);
-	alphaMap.printAlphabet();
-	alphaMap.printSizeOfProperties();
-	alphaMap.printConvertionMap();
+	AlphabetMap *alphaMap = new AlphabetMap(filePath);
+	alphaMap->printAlphabet();
+	alphaMap->printSizeOfProperties();
+	alphaMap->printConvertionMap();
 	//std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
 	
-	Trie mytrie(MB_16, alphaMap, filePath);
+	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
+	// we create file
+	//std::cout << "we succeed in creating the trie" << std::endl;
+	delete mytrie;
 }
 
 
@@ -85,8 +91,10 @@ int main (int argc, char * const argv[]) {
 
 	}
 	else {
-		std::cerr << "Not enough argument, didn't compute" << std::endl;
-		return 1;
+		std::string bla(PATH);
+		testOpenFile(bla);
+		//std::cerr << "Not enough argument, didn't compute" << std::endl;
+		//return 1;
 	}
     return 0;
 }
