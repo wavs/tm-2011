@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <iterator>
 #include <iostream>
+#include <new>
+#include <stdio.h>
 #include "TMtrie.h"
 
 void		Trie::initTrieMemory(unsigned long int sizeNeeded)
@@ -64,7 +66,7 @@ void		Trie::parseFileToTrie(std::string filePath)
 				frequenceWordStr.str(tokens[1]);
 				frequenceWordStr >> frequenceWordInt;
 				
-				this->addWord(tokens[0], frequenceWordInt);//(unsigned long int) tokens[1]);
+				this->addWord(tokens[0], frequenceWordInt);
 			}
 		}
 		myFileStream.close();
@@ -76,17 +78,20 @@ void		Trie::parseFileToTrie(std::string filePath)
 	
 }
 
-Trie::Trie(unsigned long int sizeNeeded, AlphabetMap alphaMap, std::string filePath)
+Trie::Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &filePath):
+	trie(NULL)
 {
 	this->initTrieMemory(sizeNeeded);
-	std::cout << "we init Trie Memory" << std::endl;
 	this->initTrieHeaderWithAlphabet(alphaMap);
 	this->parseFileToTrie(filePath);
 }
 
 Trie::~Trie()
 {
-	delete[] this->trie;
+	if (this->trie)
+	{
+		delete[] this->trie;
+	}
 }
 
 
@@ -95,10 +100,6 @@ int			Trie::getFrequence(std::string word)
 	return 0;
 }
 
-int			Trie::getFrequence(char		*word)
-{
-	return 0;
-}
 
 int			Trie::compileTrie(std::string destinationPath)
 {

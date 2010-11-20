@@ -37,7 +37,6 @@
 class Trie {
 	private:
 		char*		trie;
-	private:
 	/* we allocate as much as we can, because we don't know yet, how much we will need */
 		void		initTrieMemory(unsigned long int sizeNeeded); 
 	/* We need to put some information about the structure at the begining of our Trie */
@@ -49,11 +48,10 @@ class Trie {
 	/* construct the Trie */
 		void		parseFileToTrie(std::string filePath);
 	public:
-		Trie(unsigned long int sizeNeeded, AlphabetMap alphaMap, std::string filePath);
+		Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &filePath);
 		~Trie();
-	public:
+
 		int			getFrequence(std::string word);
-		int			getFrequence(char		*word);
 		/* Dump the structure char* trie to the file */
 		int			compileTrie(std::string destinationPath);
 	
