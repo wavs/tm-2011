@@ -17,8 +17,8 @@
 
 class AlphabetMap {
 private:
-	std::vector<char> *convertionMap;
-	std::set<char> alphabet;
+	std::vector<char>	*convertionMap;
+	std::set<char>		alphabet;
 	
 	/* construct the convertionMap */
 	void parseFileToAlphabet(std::string path);
