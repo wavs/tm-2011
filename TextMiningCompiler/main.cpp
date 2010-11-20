@@ -11,6 +11,7 @@
 #include <iterator>
 
 #include "TMalphabetMap.h"
+#include "TMtrie.h"
 
 #define DEFAULTPATH "tm.out"
 
@@ -54,7 +55,9 @@ void testOpenFile(std::string &filePath)
 	alphaMap.printAlphabet();
 	alphaMap.printSizeOfProperties();
 	alphaMap.printConvertionMap();
-	std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
+	//std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
+	
+	Trie mytrie(MB_16, alphaMap, filePath);
 }
 
 

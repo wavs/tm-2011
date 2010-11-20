@@ -18,13 +18,6 @@
 
 void AlphabetMap::parseFileToAlphabet(std::string path)
 {
-	/*
-	 distChar = {}	
-	 for line in open(filename):
-	 words = line.rsplit("\t")
-	 distChar = tryToAddWordToDict(distChar, words[0])
-	 return distChar	 
-	 */
 	std::fstream	myFileStream;
 	std::string		myLine;
 	
