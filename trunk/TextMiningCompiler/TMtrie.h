@@ -43,16 +43,18 @@ typedef struct s_header{
 class Trie {
 	private:
 		void*		trieMemoryChunk;
-		char*		trieRoot;
+		uint32_t*	trieRoot;
 		s_header*	header;
+		uint32_t	maxSizeTrie;
+		uint32_t	cellSize;
 	/* we allocate as much as we can, because we don't know yet, how much we will need */
-		void		initTrieMemory(unsigned long int sizeNeeded); 
+		void		initTrieMemory(uint32_t sizeNeeded); 
 	/* We need to put some information about the structure at the begining of our Trie */
 		void		initTrieHeaderWithAlphabet(AlphabetMap &alphaMap);
 	/* Once we've put every word we needed in our Trie, we can reduce it, so it'll take less memory */
 		void		resizeTrieMemory(void);
 	/* add a word to the trie with the frequence */
-		void		addWord(std::string word, unsigned long int frequence);
+		void		addWord(std::string word, uint32_t frequence);
 	/* construct the Trie */
 		void		parseFileToTrie(std::string filePath);
 	private:
@@ -61,13 +63,15 @@ class Trie {
 		void	setHeaderTrieSize(unsigned long int _trieSize);
 	private:
 	 /* return the new cell and increment the size of the trie in the header*/
-		char	*addCell(char	*currentCell, char	letter, int32_t frequence);
-		char	*getCell(char	*currentCell, char letter);
+		uint32_t	getSpecialPosition(uint32_t *currentCell, char letter);
+		uint32_t	*addCell(uint32_t	*currentCell, char	letter, uint32_t frequence);
+		uint32_t	*getCell(uint32_t	*currentCell, char letter);
+		void	setFrequence(uint32_t	*currentCell, uint32_t frequence);
 	public:
 		Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &filePath);
 		~Trie();
 
-		int32_t			getFrequence(std::string word);
+		uint32_t			getFrequence(std::string word);
 		/* Dump the structure char* trie to the file */
 		int			compileTrie(std::string destinationPath);
 	

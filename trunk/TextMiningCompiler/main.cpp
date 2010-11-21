@@ -53,6 +53,63 @@ void testSet(void)
 }
 
 
+/*
+** unit test 
+** for each word in the file, we check the tree and compare the frequence
+** we should have with the frequence we get
+*/
+void	testTrie(std::string &filePath, Trie *mytrie)
+{
+	std::fstream		myFileStream;
+	std::string			myLine;
+	std::istringstream	frequenceWordStr;
+	unsigned long int	frequenceWordInt;
+	
+	myFileStream.open(filePath.c_str(), std::fstream::in);
+	
+	
+	if (myFileStream.is_open())
+	{
+		
+		while ( myFileStream.good() )
+		{
+			std::getline (myFileStream, myLine);
+			std::istringstream iss(myLine);
+			std::vector<std::string> tokens;
+			
+			/* We Could Optimize this*/
+			std::copy(std::istream_iterator<std::string>(iss),
+					  std::istream_iterator<std::string>(),
+					  std::back_inserter<std::vector <std::string> >(tokens));
+			
+			if (tokens.size() == 2)
+			{
+				frequenceWordStr.clear();
+				frequenceWordStr.str(tokens[1]);
+				frequenceWordStr >> frequenceWordInt;
+				
+				/* here we test with the trie */
+				if (mytrie->getFrequence(tokens[0]) != frequenceWordInt) {
+					std::cout << "NOT OK: tokens0: " << tokens[0] << "/frequence from trie: " << mytrie->getFrequence(tokens[0])
+					<< "/realfrequence: " << frequenceWordInt << std::endl;
+				}
+#if 0
+				else {
+					std::cout << "OK    : tokens0: " << tokens[0] << "/frequence from trie: " << mytrie->getFrequence(tokens[0])
+					<< "/realfrequence: " << frequenceWordInt << std::endl;	
+				}
+#endif /* 0 */
+
+			}
+		}
+		myFileStream.close();
+	}
+	else
+	{
+		std::cerr << "Unable to open file"; 
+	}
+}
+
 void testOpenFile(std::string &filePath, std::string &destinationPath)
 {
 	AlphabetMap *alphaMap = new AlphabetMap(filePath);
@@ -63,7 +120,8 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 	
 	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
 	std::cout << "we succeed in creating the trie" << std::endl;
-#if 1
+#if 0
+	{
 	std::string test1("n942a");
 	std::cout << "my frequence n942a: " << mytrie->getFrequence(test1) << std::endl;
 	
@@ -78,8 +136,11 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 
 	std::string test5("n939");
 	std::cout << "my frequence n939: " << mytrie->getFrequence(test5) << std::endl;
+	}
 #endif
 	mytrie->compileTrie(destinationPath);
+	testTrie(filePath, mytrie);
+	
 
 	delete mytrie;
 
