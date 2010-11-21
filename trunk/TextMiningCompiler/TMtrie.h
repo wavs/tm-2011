@@ -62,6 +62,7 @@ class Trie {
 	private:
 	 /* return the new cell and increment the size of the trie in the header*/
 		char	*addCell(char	*currentCell, char	letter, int32_t frequence);
+		char	*getCell(char	*currentCell, char letter);
 	public:
 		Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &filePath);
 		~Trie();
