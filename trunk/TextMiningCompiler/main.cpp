@@ -52,18 +52,19 @@ void testSet(void)
 	std::cout << convertionMap[127] << std::endl;
 }
 
+
 void testOpenFile(std::string &filePath)
 {
 	AlphabetMap *alphaMap = new AlphabetMap(filePath);
-	alphaMap->printAlphabet();
-	alphaMap->printSizeOfProperties();
+	//alphaMap->printAlphabet();
+	//alphaMap->printSizeOfProperties();
 	alphaMap->printConvertionMap();
 	//std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
 	
 	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
-	// we create file
-	//std::cout << "we succeed in creating the trie" << std::endl;
+	std::cout << "we succeed in creating the trie" << std::endl;
 	delete mytrie;
+
 }
 
 
