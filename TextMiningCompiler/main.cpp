@@ -53,16 +53,34 @@ void testSet(void)
 }
 
 
-void testOpenFile(std::string &filePath)
+void testOpenFile(std::string &filePath, std::string &destinationPath)
 {
 	AlphabetMap *alphaMap = new AlphabetMap(filePath);
 	//alphaMap->printAlphabet();
 	//alphaMap->printSizeOfProperties();
-	alphaMap->printConvertionMap();
+	//alphaMap->printConvertionMap();
 	//std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
 	
 	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
 	std::cout << "we succeed in creating the trie" << std::endl;
+#if 1
+	std::string test1("n942a");
+	std::cout << "my frequence n942a: " << mytrie->getFrequence(test1) << std::endl;
+	
+	std::string test2("n942");
+	std::cout << "my frequence n942: " << mytrie->getFrequence(test2) << std::endl;
+
+	std::string test3("n936");
+	std::cout << "my frequence n936: " << mytrie->getFrequence(test3) << std::endl;
+
+	std::string test4("n941");
+	std::cout << "my frequence n941: " << mytrie->getFrequence(test4) << std::endl;
+
+	std::string test5("n939");
+	std::cout << "my frequence n939: " << mytrie->getFrequence(test5) << std::endl;
+#endif
+	mytrie->compileTrie(destinationPath);
+
 	delete mytrie;
 
 }
@@ -84,18 +102,16 @@ int main (int argc, char * const argv[]) {
 			destinationPath = new std::string(DEFAULTPATH);
 		}
 		// build tree from file
-		testOpenFile(*filePath);
+		testOpenFile(*filePath, *destinationPath);
 		// compile tree from class
-		
+
 		// save to destinationPath
 		std::cout << *filePath << " " << *destinationPath << " "<< std::endl;
 
 	}
 	else {
-		std::string bla(PATH);
-		testOpenFile(bla);
-		//std::cerr << "Not enough argument, didn't compute" << std::endl;
-		//return 1;
+		std::cerr << "Not enough argument, didn't compute" << std::endl;
+		return 1;
 	}
     return 0;
 }

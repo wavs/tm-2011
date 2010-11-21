@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include "TMtrie.h"
 
-#define DEBUG 14244
+#define DEBUG 0
 
 /*** TRIE CLASS IMPLEMENTATION*/
 void		Trie::initTrieMemory(unsigned long int sizeNeeded)
@@ -28,7 +28,7 @@ void		Trie::initTrieMemory(unsigned long int sizeNeeded)
 		this->trieRoot = (char*) (this->header + 1);
 		
 		// debug
-#if NOT_DEBUG
+#if DEBUG
 		std::cout << "TrieMemoryChunk pos: " << (void*) this->trieMemoryChunk << std::endl;
 		std::cout << "header pos: " << (void*) this->header << std::endl;
 		std::cout << "trieRoot pos: " << (void*) this->trieRoot << std::endl;
@@ -54,7 +54,7 @@ void		Trie::initTrieHeaderWithAlphabet(AlphabetMap &alphaMap)
 	std::cout << "size of unsigned long int" << sizeof(unsigned long int) << std::endl;
 	std::cout << "trieRoot pos: " << (void*) this->trieRoot << std::endl;
 #endif
-#if NOT_DEBUG
+#if DEBUG
 	std::cout << "alphabetsize: " << this->header->alphabetSize << std::endl;
 	std::cout << "triesize: " << this->header->trieSize << std::endl;
 	std::cout << "mapping: " << this->header->mapping << std::endl;
@@ -82,17 +82,34 @@ void		Trie::resizeTrieMemory(void)
 void		Trie::addWord(std::string word, unsigned long int frequence)
 {
 	char	*currentCell = this->trieRoot;
+	char    *currentGetCell = NULL;
 	int i;
 	for (i = 0; i < word.size() - 1; ++i) {
-		currentCell = this->addCell(currentCell, word[i], 0);
+		/* check if the cell didn't already exist */
+		currentGetCell = this->getCell(currentCell, word[i]);
+		if (currentGetCell == NULL) {
+			currentCell = this->addCell(currentCell, word[i], 0);
+		}
+		else {
+			currentCell = currentGetCell;
+		}
+
+#if NOT_DEBUG
+		std::cout << "at depth: " << i << "/ with letter: " << word[i] << "/ with frequence" << *(int32_t*)currentCell << std::endl;
+#endif /* DEBUG */
 	}
-	this->addCell(currentCell, word[i], frequence);
+	currentGetCell = this->getCell(currentCell, word[i]);
+	if (currentGetCell == NULL) {
+		currentCell = this->addCell(currentCell, word[i], frequence);
+	}
+#if NOT_DEBUG
+	std::cout << "at depth: " << i << "/ with letter: " << word[i] << "/ with frequence" << *(int32_t*)currentCell << std::endl;
+#endif /* DEBUG */
 	
 	//	std::cout << word << " // " <<frequence<<std::endl;	 /* FIXME */
 }
 
-void		Trie::parseFileToTrie(std::string filePath)
-{
+void		Trie::parseFileToTrie(std::string filePath){
 	std::fstream		myFileStream;
 	std::string			myLine;
 	std::istringstream	frequenceWordStr;
@@ -122,6 +139,9 @@ void		Trie::parseFileToTrie(std::string filePath)
 				frequenceWordStr >> frequenceWordInt;
 				
 				this->addWord(tokens[0], frequenceWordInt);
+#if DEBUG
+				std::cout << tokens[0] << "/" << frequenceWordInt << std::endl;
+#endif /* DEBUG */
 			}
 		}
 		myFileStream.close();
@@ -134,8 +154,7 @@ void		Trie::parseFileToTrie(std::string filePath)
 }
 
 Trie::Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &filePath):
-	trieMemoryChunk(NULL), trieRoot(NULL), header(NULL)
-{
+	trieMemoryChunk(NULL), trieRoot(NULL), header(NULL){
 	this->initTrieMemory(sizeNeeded);
 	this->initTrieHeaderWithAlphabet(alphaMap);
 	this->parseFileToTrie(filePath);
@@ -143,17 +162,14 @@ Trie::Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &fil
 
 /* TODO: Create new constructor for direct import from binary file via mmap and stuff */
 
-Trie::~Trie()
-{
+Trie::~Trie(){
 	if (this->trieMemoryChunk)
 	{
 		free(this->trieMemoryChunk);
 	}
 }
 
-
-void	Trie::setHeaderMapping(std::vector<char> *_mapping)
-{
+void	Trie::setHeaderMapping(std::vector<char> *_mapping){
 	std::vector<char>::iterator it;
 	int count = 0;
 	
@@ -164,8 +180,7 @@ void	Trie::setHeaderMapping(std::vector<char> *_mapping)
 	}	
 }
 
-void	Trie::setHeaderAlphabet(std::set<char> &_alphabet)
-{
+void	Trie::setHeaderAlphabet(std::set<char> &_alphabet){
 	std::set<char>::iterator it;
 	int count = 0;
 	
@@ -176,31 +191,54 @@ void	Trie::setHeaderAlphabet(std::set<char> &_alphabet)
 	}
 }
 
-void	Trie::setHeaderTrieSize(unsigned long int _trieSize)
-{
+void	Trie::setHeaderTrieSize(unsigned long int _trieSize){
 	this->header->trieSize = _trieSize;
 }
 
-char	*Trie::addCell(char	*currentCell, char	letter, int32_t frequence)
-{
+char	*Trie::addCell(char	*currentCell, char	letter, int32_t frequence){
 	/* we set the cell to the letter*/
-	currentCell[sizeof(int32_t) + this->header->mapping[letter]] = this->header->trieSize + 1;
+	currentCell[sizeof(int32_t) + this->header->mapping[letter]] = this->header->trieSize + 1; // we put a int32_t inside
 	/* we put the frequence in the new cell*/
 	this->setHeaderTrieSize(this->header->trieSize + 1);
 	char	*newCell = this->trieRoot + this->header->trieSize*(sizeof(int32_t)*(this->header->alphabetSize + 1));
-	((int32_t*)newCell)[0] = frequence;
+	if (frequence != 0) {
+		((int32_t*)newCell)[0] = frequence;
+	}
 	
 	return ((char*)newCell);
 
 }
 
-int32_t			Trie::getFrequence(std::string word)
-{
-	return 0; /* FIXME */
+char	*Trie::getCell(char	*currentCell, char letter){
+	int32_t positionCell = currentCell[sizeof(int32_t) + this->header->mapping[letter]];
+	if (positionCell == 0) {
+		return NULL;
+	}
+	else {
+		return this->trieRoot + positionCell*(sizeof(int32_t)*(this->header->alphabetSize + 1));
+	}
+
 }
 
+int32_t	Trie::getFrequence(std::string word){
+	char	*currentCell = this->trieRoot;
+	int		i;
+	int32_t positionLetter;
+	
+	for (i = 0; i < word.size(); ++i) {
+		positionLetter = currentCell[sizeof(int32_t) + this->header->mapping[word[i]]];
+		currentCell = this->trieRoot + positionLetter*(sizeof(int32_t)*(this->header->alphabetSize + 1));
+#if NOTDEBUG
+		std::cout << "SEARCHING: at depth: " << i << "/ with letter: " << word[i] << "/ with frequence" << *(int32_t*)currentCell << std::endl;
+#endif /* DEBUG */
+	}
+	
+	return *(int32_t*)currentCell;
+}
 
-int			Trie::compileTrie(std::string destinationPath)
-{
-	return 0; /* FIXME */
+int		Trie::compileTrie(std::string destinationPath){
+	
+	std::cout << "size of the trie:" << this->header->trieSize << std::endl;
+
+	return 0;
 }
