@@ -138,7 +138,7 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 	std::cout << "my frequence n939: " << mytrie->getFrequence(test5) << std::endl;
 	}
 #endif
-	mytrie->compileTrie(destinationPath);
+	//mytrie->compileTrie(destinationPath);
 	testTrie(filePath, mytrie);
 	
 
@@ -165,7 +165,6 @@ int main (int argc, char * const argv[]) {
 		// build tree from file
 		testOpenFile(*filePath, *destinationPath);
 		// compile tree from class
-
 		// save to destinationPath
 		std::cout << *filePath << " " << *destinationPath << " "<< std::endl;
 
