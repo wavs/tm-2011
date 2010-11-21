@@ -20,8 +20,7 @@
 #define NOT_DEBUG 0
 
 /*** TRIE CLASS IMPLEMENTATION*/
-void		Trie::initTrieMemory(uint32_t sizeNeeded)
-{
+void		Trie::initTrieMemory(uint32_t sizeNeeded){
 	this->trieMemoryChunk = calloc(sizeNeeded, sizeof(char));
 	if (this->trieMemoryChunk)
 	{
@@ -38,8 +37,7 @@ void		Trie::initTrieMemory(uint32_t sizeNeeded)
 	}
 }
 
-void		Trie::initTrieHeaderWithAlphabet(AlphabetMap &alphaMap)
-{
+void		Trie::initTrieHeaderWithAlphabet(AlphabetMap &alphaMap){
 	/* [alphabet size][TrieSize (unsigned long int) ][127 char long array containing the mapping of our alphabet][our alphabet] */
 	this->header->alphabetSize = alphaMap.getAlphabetSize();
 	this->header->trieSize = 0;
@@ -76,8 +74,7 @@ void		Trie::initTrieHeaderWithAlphabet(AlphabetMap &alphaMap)
 	
 }
 
-void		Trie::resizeTrieMemory(void)
-{
+void		Trie::resizeTrieMemory(void){
  /* FIXME */
 }
 
@@ -208,11 +205,15 @@ void	Trie::setHeaderTrieSize(unsigned long int _trieSize){
 
 
 uint32_t	Trie::getSpecialPosition(uint32_t *currentCell, char letter){
+	 // we should do +1 but because of the result of mapping -1 == 0 // so we don't add
+	return currentCell[(int)(this->header->mapping[letter])];
+}
+
+void		Trie::setSpecialPosition(uint32_t *currentCell, char letter, uint32_t position){
 	
-	uint32_t positionCell = 0;
-	
-	positionCell = currentCell[(int)(this->header->mapping[letter])];
-	return positionCell;
+	/* first we retrieve the proper place in our current cell */
+	// we should do +1 but because of the result of mapping -1 == 0 // so we don't add
+	currentCell[(int)(this->header->mapping[letter])] = position;
 }
 
 uint32_t	*Trie::addCell(uint32_t	*currentCell, char	letter, uint32_t frequence){
@@ -220,17 +221,21 @@ uint32_t	*Trie::addCell(uint32_t	*currentCell, char	letter, uint32_t frequence){
 	if (((this->header->trieSize + 1)*this->cellSize) > this->maxSizeTrie) {
 		return NULL;
 	}
-	/* we set the cell to the letter*/
+	/* then we set the cell to the letter*/
+	
+	/* we need to have the position of the new cell we want to create */
 	uint32_t newsize = this->header->trieSize + 1;
 	
-	uint32_t *specialPointer = (uint32_t*)&(currentCell[((int)this->header->mapping[letter] + 1)*sizeof(int32_t)]);
-	*specialPointer = newsize; // we put a int32_t inside
-	/* we put the frequence in the new cell*/
-	this->setHeaderTrieSize(this->header->trieSize + 1);
+	/* so we get to set the position of the new cell to the proper place in our currentCell */
+	this->setSpecialPosition(currentCell, letter, newsize);
 	
-	uint32_t	*newCell = this->trieRoot + this->header->trieSize*(sizeof(int32_t)*(this->header->alphabetSize + 1));
+	/* we should increment our trie size because we're going to create a new cell*/
+	this->setHeaderTrieSize(this->header->trieSize + 1);
+	uint32_t	*newCell = this->trieRoot + (this->header->trieSize)*(this->cellSize);
+	
 	if (frequence != 0) {
-		((int32_t*)newCell)[0] = frequence;
+		/* we put the frequence in the new cell because it's not zero (which mean it's not a leaf) */
+		newCell[0] = frequence;
 	}
 	
 	return newCell;
@@ -238,13 +243,16 @@ uint32_t	*Trie::addCell(uint32_t	*currentCell, char	letter, uint32_t frequence){
 }
 
 uint32_t	*Trie::getCell(uint32_t	*currentCell, char letter){
-	uint32_t positionCell = *((uint32_t*)&(currentCell[((int)this->header->mapping[letter] + 1)*sizeof(int32_t)]));
+	uint32_t positionCell = this->getSpecialPosition(currentCell, letter);
+
 	if (positionCell == 0) {
 		return NULL;
 	}
 	else {
+#if 0
 		std::cout << "position: " << positionCell << "/ cell for letter: " << letter<< std::endl;
-		return this->trieRoot + positionCell*(sizeof(int32_t)*(this->header->alphabetSize + 1));
+#endif // 0
+		return this->trieRoot + positionCell*this->cellSize;
 	}
 
 }
@@ -252,21 +260,20 @@ uint32_t	*Trie::getCell(uint32_t	*currentCell, char letter){
 uint32_t	Trie::getFrequence(std::string word){
 	uint32_t	*currentCell = this->trieRoot;
 	int			i;
-	uint32_t	positionLetter;
 	
 	for (i = 0; i < word.size(); ++i) {
-		positionLetter = currentCell[sizeof(int32_t) + this->header->mapping[word[i]]];
-		currentCell = this->trieRoot + (positionLetter*this->cellSize);
+		currentCell = this->getCell(currentCell, word[i]);
 #if NOTDEBUG
 		std::cout << "SEARCHING: at depth: " << i << "/ with letter: " << word[i] << "/ with frequence" << *(uint32_t*)currentCell << std::endl;
 #endif /* DEBUG */
 	}
 	
-	return *((uint32_t*)currentCell);
+	/* the frequence is at [0]*/
+	return currentCell[0];
 }
 
 void	Trie::setFrequence(uint32_t	*currentCell, uint32_t frequence){
-		((uint32_t*)currentCell)[0] = frequence;
+		currentCell[0] = frequence;
 }
 int		Trie::compileTrie(std::string destinationPath){
 	std::ofstream		myFileStream;
@@ -276,7 +283,8 @@ int		Trie::compileTrie(std::string destinationPath){
 	
 	if (myFileStream.is_open())
 	{
-		uint32_t sizeMemory = (this->header->trieSize * this->cellSize) + sizeof(s_header);
+		/* because we want trieRoot (at zero) plus all the cell (trieSize cell) */
+		uint32_t sizeMemory = ((this->header->trieSize + 1) * this->cellSize) + sizeof(s_header);
 		myFileStream.write((char*)this->trieMemoryChunk, sizeMemory );
 		myFileStream.close();
 	}
