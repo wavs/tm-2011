@@ -138,7 +138,7 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 	std::cout << "my frequence n939: " << mytrie->getFrequence(test5) << std::endl;
 	}
 #endif
-	//mytrie->compileTrie(destinationPath);
+	mytrie->compileTrie(destinationPath);
 	testTrie(filePath, mytrie);
 	
 

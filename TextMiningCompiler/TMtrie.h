@@ -13,6 +13,7 @@
 
 # define SIZE_ALPHABET 127          /* Using a-z and space */
 
+# define MB_1024 1073741824
 # define MB_512 536870912			/*	536 870 912 */
 # define MB_256 268435456
 # define MB_128 134217728
