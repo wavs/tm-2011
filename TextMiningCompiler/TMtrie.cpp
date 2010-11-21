@@ -207,8 +207,12 @@ void	Trie::setHeaderTrieSize(unsigned long int _trieSize){
 }
 
 
-uint32_t	getSpecialPosition(uint32_t *currentCell, char letter){
-	uint32_t positionCell = *(currentCell[(int)this->header->mapping[letter]];
+uint32_t	Trie::getSpecialPosition(uint32_t *currentCell, char letter){
+	
+	uint32_t positionCell = 0;
+	
+	positionCell = currentCell[(int)(this->header->mapping[letter])];
+	return positionCell;
 }
 
 uint32_t	*Trie::addCell(uint32_t	*currentCell, char	letter, uint32_t frequence){
