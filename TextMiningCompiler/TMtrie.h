@@ -12,7 +12,7 @@
 # include "TMalphabetMap.h"
 
 # define SIZE_ALPHABET 127          /* Using a-z and space */
-# define MAXDEPTH 42                /* Supporting 20 character depth of dictionary */
+
 # define MB_512 536870912			/*	536 870 912 */
 # define MB_256 268435456
 # define MB_128 134217728
@@ -32,26 +32,41 @@
 */
 
 
+typedef struct s_header{
+	char				alphabetSize;
+	uint32_t			trieSize;
+	char				mapping[SIZE_ALPHABET];
+	char				alphabet[SIZE_ALPHABET];	
+} s_header;
 
 /* Trie represented as class */
 class Trie {
 	private:
-		char*		trie;
+		void*		trieMemoryChunk;
+		char*		trieRoot;
+		s_header*	header;
 	/* we allocate as much as we can, because we don't know yet, how much we will need */
 		void		initTrieMemory(unsigned long int sizeNeeded); 
 	/* We need to put some information about the structure at the begining of our Trie */
-		void		initTrieHeaderWithAlphabet(AlphabetMap alphaMap);
+		void		initTrieHeaderWithAlphabet(AlphabetMap &alphaMap);
 	/* Once we've put every word we needed in our Trie, we can reduce it, so it'll take less memory */
 		void		resizeTrieMemory(void);
 	/* add a word to the trie with the frequence */
 		void		addWord(std::string word, unsigned long int frequence);
 	/* construct the Trie */
 		void		parseFileToTrie(std::string filePath);
+	private:
+		void	setHeaderMapping(std::vector<char> *_mapping);
+		void	setHeaderAlphabet(std::set<char> &_alphabet);
+		void	setHeaderTrieSize(unsigned long int _trieSize);
+	private:
+	 /* return the new cell and increment the size of the trie in the header*/
+		char	*addCell(char	*currentCell, char	letter, int32_t frequence);
 	public:
 		Trie(unsigned long int sizeNeeded, AlphabetMap &alphaMap, std::string &filePath);
 		~Trie();
 
-		int			getFrequence(std::string word);
+		int32_t			getFrequence(std::string word);
 		/* Dump the structure char* trie to the file */
 		int			compileTrie(std::string destinationPath);
 	

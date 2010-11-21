@@ -33,6 +33,11 @@ public:
 	void printSizeOfProperties(void); /* For Debug purpose */
 	void printAlphabet(void);
 	void printConvertionMap(void);
+	
 	char getPosition(char position);
+	char getAlphabetSize();
+	
+	std::vector<char>	*getConvertionMap(void);
+	std::set<char>		&getAlphabet(void);
 };
 #endif /* !TMALPHABETMAP_H_*/

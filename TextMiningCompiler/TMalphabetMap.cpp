@@ -133,3 +133,18 @@ char AlphabetMap::getPosition(char position)
 {
 	return this->convertionMap->at(position);
 }
+
+char AlphabetMap::getAlphabetSize()
+{
+	return (char)this->alphabet.size();
+}
+
+
+std::vector<char>	*AlphabetMap::getConvertionMap(void)
+{
+	return (this->convertionMap);
+}
+std::set<char>		&AlphabetMap::getAlphabet(void)
+{
+	return (this->alphabet);
+}
