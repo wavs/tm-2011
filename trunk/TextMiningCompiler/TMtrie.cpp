@@ -206,7 +206,12 @@ void	Trie::setHeaderTrieSize(unsigned long int _trieSize){
 
 uint32_t	Trie::getSpecialPosition(uint32_t *currentCell, char letter){
 	 // we should do +1 but because of the result of mapping -1 == 0 // so we don't add
-	return currentCell[(int)(this->header->mapping[letter])];
+	
+	if (currentCell){
+		return currentCell[(uint32_t)(this->header->mapping[letter])];
+	} else {
+		return 0;
+	}
 }
 
 void		Trie::setSpecialPosition(uint32_t *currentCell, char letter, uint32_t position){
@@ -219,6 +224,7 @@ void		Trie::setSpecialPosition(uint32_t *currentCell, char letter, uint32_t posi
 uint32_t	*Trie::addCell(uint32_t	*currentCell, char	letter, uint32_t frequence){
 	/* we check if we have enough memory*/
 	if (((this->header->trieSize + 1)*this->cellSize) > this->maxSizeTrie) {
+		std::cerr << "we dont have enought memory"<< std::endl;
 		return NULL;
 	}
 	/* then we set the cell to the letter*/
