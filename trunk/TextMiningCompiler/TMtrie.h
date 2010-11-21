@@ -64,6 +64,7 @@ class Trie {
 	private:
 	 /* return the new cell and increment the size of the trie in the header*/
 		uint32_t	getSpecialPosition(uint32_t *currentCell, char letter);
+		void		setSpecialPosition(uint32_t *currentCell, char letter, uint32_t position);
 		uint32_t	*addCell(uint32_t	*currentCell, char	letter, uint32_t frequence);
 		uint32_t	*getCell(uint32_t	*currentCell, char letter);
 		void	setFrequence(uint32_t	*currentCell, uint32_t frequence);
