@@ -87,32 +87,36 @@ s_node		*TrieDynamic::addWord(s_node  *currentNode, std::string word, uint32_t f
 			else {
 				currentNode->sons = this->addWord(currentNode->sons, word.substr(1), frequence);
 			}
-			currentNode->sons = this->addWord(currentNode, word.substr(1), frequence);
-			return currentNode;
+			//currentNode->sons = this->addWord(currentNode, word.substr(1), frequence);
+			return brothers;
 
 		}
 		else{
 			if (word.size() == 1) {
 				if (brothers) {
-					currentNode = this->addCell(brothers->sons, word[0], frequence);
+					currentNode = this->addCell(brothers, word[0], frequence);
 
 				}
 				else {
 					currentNode = this->addCell(NULL, word[0], frequence);
+					brothers = currentNode;
 				}
 
 			}
 			else {
 				if (brothers) {
-					currentNode = this->addCell(brothers->sons, word[0], 0);
+					currentNode = this->addCell(brothers, word[0], 0);
 					
 				}
 				else {
 					currentNode = this->addCell(NULL, word[0], 0);
-				}				currentNode->sons = this->addWord(currentNode->sons, word.substr(1), frequence);
+					brothers = currentNode;
+				}
+				currentNode->sons = this->addWord(currentNode->sons, word.substr(1), frequence);
 
 			}
-			return currentNode;
+			
+			return  brothers;
 		}
 		
 	}
