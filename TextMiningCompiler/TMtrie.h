@@ -76,6 +76,9 @@ class Trie {
 		uint32_t			getFrequence(std::string word);
 		/* Dump the structure char* trie to the file */
 		int			compileTrie(std::string destinationPath);
+	public:
+		void		testMemoryTree();
+		uint32_t	*getCell(uint32_t	offset);
 	
 };
 #endif /* !TMTRIE_H_ */
