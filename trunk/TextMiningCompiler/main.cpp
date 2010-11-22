@@ -14,6 +14,7 @@
 
 #include "TMalphabetMap.h"
 #include "TMtrie.h"
+#include "TMTrieDynamic.h"
 
 #define DEFAULTPATH "tm.out"
 
@@ -58,7 +59,7 @@ void testSet(void)
 ** for each word in the file, we check the tree and compare the frequence
 ** we should have with the frequence we get
 */
-void	testTrie(std::string &filePath, Trie *mytrie)
+void	testTrie(std::string &filePath, TrieDynamic *mytrie)
 {
 	std::fstream		myFileStream;
 	std::string			myLine;
@@ -117,8 +118,9 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 	//alphaMap->printSizeOfProperties();
 	//alphaMap->printConvertionMap();
 	//std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
-	
-	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
+//#if 0
+	//Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
+	TrieDynamic *mytrie = new TrieDynamic(filePath);
 	std::cout << "we succeed in creating the trie" << std::endl;
 #if 0
 	{
@@ -140,10 +142,12 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 #endif
 	mytrie->compileTrie(destinationPath);
 	testTrie(filePath, mytrie);
-	
+	//mytrie->testMemoryTree();
 
 	delete mytrie;
-
+//#endif
+//	std::string test("n");
+//	std::cout << test.substr(0).at(0) << std::endl;
 }
 
 

@@ -43,9 +43,11 @@ void		Trie::initTrieHeaderWithAlphabet(AlphabetMap &alphaMap){
 	this->header->trieSize = 0;
 	this->setHeaderMapping(alphaMap.getConvertionMap());
 	this->setHeaderAlphabet(alphaMap.getAlphabet());
-	this->cellSize = sizeof(uint32_t)*(this->header->alphabetSize + 1);
+
+	this->cellSize = ((uint32_t)(this->header->alphabetSize) + 1);
 	// debug
 #if NOT_DEBUG
+	std::cout << "cellsize: " << this->cellSize << std::endl;
 	std::cout << "header pos: " << (void*) this->header << std::endl;
 	std::cout << "maping pos: " << &this->header->mapping << std::endl;
 	std::cout << "alphabet pos: " << &( this->header->alphabet) << std::endl;
@@ -299,4 +301,21 @@ int		Trie::compileTrie(std::string destinationPath){
 		std::cerr << "Unable to open file"; 
 	}
 	return 0;
+}
+
+uint32_t	*Trie::getCell(uint32_t	offset){
+	return this->trieRoot + offset*this->cellSize;	
+}
+
+
+void		Trie::testMemoryTree(){
+	this->trieRoot;
+	/* dans l'idée faudrait parcourir tout l'arbre et construire un map */
+	/* avec pour clef, l'id de la celulle avec sa correspondance de caractére */
+	
+	for (uint32_t i = 0; i < this->header->trieSize; ++i) {
+		
+
+		std::cout << "[" << i << ":" <<  this->getCell(i) << "]" << std::endl;
+	}
 }

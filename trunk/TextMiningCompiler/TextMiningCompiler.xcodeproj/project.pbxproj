@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		8602BBE612956F3300C4D4A9 /* TMtrie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8602BBE512956F3300C4D4A9 /* TMtrie.cpp */; };
 		8602BC2312972E9D00C4D4A9 /* TMalphabetMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8602BC2212972E9D00C4D4A9 /* TMalphabetMap.cpp */; };
+		86ACE68D129A720000189672 /* TMTrieDynamic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86ACE68C129A720000189672 /* TMTrieDynamic.cpp */; };
 		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,8 @@
 		8602BBE512956F3300C4D4A9 /* TMtrie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMtrie.cpp; sourceTree = "<group>"; };
 		8602BC2112972E9D00C4D4A9 /* TMalphabetMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMalphabetMap.h; sourceTree = "<group>"; };
 		8602BC2212972E9D00C4D4A9 /* TMalphabetMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMalphabetMap.cpp; sourceTree = "<group>"; };
+		86ACE68B129A720000189672 /* TMTrieDynamic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMTrieDynamic.h; sourceTree = "<group>"; };
+		86ACE68C129A720000189672 /* TMTrieDynamic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TMTrieDynamic.cpp; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* TextMiningCompiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TextMiningCompiler; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -78,6 +81,8 @@
 				8602BBE512956F3300C4D4A9 /* TMtrie.cpp */,
 				8602BBE412956F3300C4D4A9 /* TMtrie.h */,
 				08FB7796FE84155DC02AAC07 /* main.cpp */,
+				86ACE68B129A720000189672 /* TMTrieDynamic.h */,
+				86ACE68C129A720000189672 /* TMTrieDynamic.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 				8DD76F650486A84900D96B5E /* main.cpp in Sources */,
 				8602BBE612956F3300C4D4A9 /* TMtrie.cpp in Sources */,
 				8602BC2312972E9D00C4D4A9 /* TMalphabetMap.cpp in Sources */,
+				86ACE68D129A720000189672 /* TMTrieDynamic.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
