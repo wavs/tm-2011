@@ -23,6 +23,7 @@
 /* Begin PBXBuildFile section */
 		4B62E7DE1296E218006A68E9 /* Client.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4B62E7DD1296E218006A68E9 /* Client.cc */; };
 		4B7359AD1296DB45005C147E /* ClientFactory.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4B7359AC1296DB45005C147E /* ClientFactory.cc */; };
+		4BAC9DD4129C59B600FAC3DE /* Trie.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BAC9DD3129C59B600FAC3DE /* Trie.cc */; };
 		4BF44A3F1294100C00194645 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44A3E1294100C00194645 /* Server.cc */; };
 		4BF44B9812944BAE00194645 /* DataManager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44B9712944BAE00194645 /* DataManager.cc */; };
 		8DD76F650486A84900D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
@@ -47,6 +48,8 @@
 		4B62E7DD1296E218006A68E9 /* Client.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cc; sourceTree = "<group>"; };
 		4B7359AB1296DB45005C147E /* ClientFactory.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClientFactory.hh; sourceTree = "<group>"; };
 		4B7359AC1296DB45005C147E /* ClientFactory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientFactory.cc; sourceTree = "<group>"; };
+		4BAC9DD2129C595200FAC3DE /* Trie.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Trie.hh; sourceTree = "<group>"; };
+		4BAC9DD3129C59B600FAC3DE /* Trie.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trie.cc; sourceTree = "<group>"; };
 		4BF44A3D1294100C00194645 /* Server.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Server.hh; sourceTree = "<group>"; };
 		4BF44A3E1294100C00194645 /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		4BF44A4E12941C4A00194645 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
@@ -142,6 +145,8 @@
 			children = (
 				4BF44B9D12944D0300194645 /* DataManager.hh */,
 				4BF44B9712944BAE00194645 /* DataManager.cc */,
+				4BAC9DD2129C595200FAC3DE /* Trie.hh */,
+				4BAC9DD3129C59B600FAC3DE /* Trie.cc */,
 			);
 			name = DataManager;
 			sourceTree = "<group>";
@@ -236,6 +241,7 @@
 				4B7359AD1296DB45005C147E /* ClientFactory.cc in Sources */,
 				4B62E7DE1296E218006A68E9 /* Client.cc in Sources */,
 				FA19FA88129C243A00DCD885 /* levenshtein.cpp in Sources */,
+				4BAC9DD4129C59B600FAC3DE /* Trie.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

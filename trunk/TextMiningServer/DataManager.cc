@@ -18,10 +18,19 @@ DataManager::DataManager ()
 DataManager::~DataManager ()
 {}
 
+Trie
+*DataManager::getTrie()
+{
+	return this->trie;
+}
+
 void
 DataManager::loadFile(string filename)
 {
-	// FIXME
+	if (this->trie != NULL)
+		delete this->trie;
+	
+	this->trie = new Trie(filename);
 }
 
 void
@@ -206,5 +215,56 @@ DataManager::TEST_exportJSON()
 	delete res2;
 	delete res3;
 	delete results;
+}
+
+void
+DataManager::TEST_TrieConstruction(std::string filePath, Trie *mytrie)
+{
+	std::fstream		myFileStream;
+	std::string			myLine;
+	std::istringstream	frequenceWordStr;
+	unsigned long int	frequenceWordInt;
+	
+	myFileStream.open(filePath.c_str(), std::fstream::in);
+	
+	if (myFileStream.is_open())
+	{
+		while ( myFileStream.good() )
+		{
+			std::getline (myFileStream, myLine);
+			std::istringstream iss(myLine);
+			std::vector<std::string> tokens;
+			
+			/* We Could Optimize this*/
+			std::copy(std::istream_iterator<std::string>(iss),
+					  std::istream_iterator<std::string>(),
+					  std::back_inserter<std::vector <std::string> >(tokens));
+			
+			if (tokens.size() == 2)
+			{
+				frequenceWordStr.clear();
+				frequenceWordStr.str(tokens[1]);
+				frequenceWordStr >> frequenceWordInt;
+				
+				/* here we test with the trie */
+				if (mytrie->getFrequence(tokens[0]) != frequenceWordInt) {
+					std::cout << "NOT OK: tokens0: " << tokens[0] << "/frequence from trie: " << mytrie->getFrequence(tokens[0])
+					<< "/realfrequence: " << frequenceWordInt << std::endl;
+				}
+#if 0
+				else {
+					std::cout << "OK    : tokens0: " << tokens[0] << "/frequence from trie: " << mytrie->getFrequence(tokens[0])
+					<< "/realfrequence: " << frequenceWordInt << std::endl;	
+				}
+#endif /* 0 */
+				
+			}
+		}
+		myFileStream.close();
+	}
+	else
+	{
+		std::cerr << "Unable to open file"; 
+	}
 }
 

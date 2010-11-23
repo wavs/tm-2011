@@ -13,46 +13,74 @@
 
 #define TESTS 0
 
-int main (int argc, char * const argv[]) {
+void printTrie(s_node* node, int space, char type)
+{
+	if (node != NULL)
+	{
+		for (int i = 0; i < space; i++)
+			std::cout << " ";
+		std::cout << " " << type << " \"" << node->letter << "\" " << node->frequence << " floor : " << space << std::endl;
+		printTrie(node->brother, space+1, 'B');
+		printTrie(node->sons, space+1, 'S');
+	}
+}
 
-	std::cout << distanceLeven("crise", "kries") << std::endl;
-	return 0;
+void usage()
+{
+	std::cout << "Usage: TextMiningServer port pathOfDataFile" << std::endl;
+	std::cout << "       -h      Help" << std::endl;
+}
+
+int main (int argc, char * const argv[]) {
 	
 	
 #if TESTS
 	
 	// Lancement des tests
 	DataManager	*dataManager = DataManager::getInstance();
-	dataManager->TEST_exportJSON();
+	//dataManager->TEST_exportJSON();
+	dataManager->loadFile("/Users/wavs/Desktop/test.txt");
+	std::cout << "Tree builded." << std::endl;
+	
+	printTrie(dataManager->getTrie()->getTrieRoot(), 1, 'R');
 	
 #else
 	
 	// Arguments manager
-	
-	// Dictionary loader
-	
-	// Server initialization
-	Server	*server = new Server(2342);
-	server->initialize();
-	
-	// Server runloop
-	if ( server->start() == 1)
+	if (argc > 2)
 	{
-		std::cout << "ERROR: server couldn't start." << std::endl;
+		// Récupération du numéro de port
+		size_t	numPort = atoi(argv[1]);
+		
+		// Récupération du chemin du fichier de données
+		string filePath = string(argv[2]);
+		
+		// Dictionary loader
+		DataManager	*dataManager = DataManager::getInstance();
+		dataManager->loadFile(filePath);
+	
+		// Server initialization
+		Server	*server = new Server(numPort);
+		server->initialize();
+	
+		// Server runloop
+		if ( server->start() == 1)
+		{
+			std::cout << "ERROR: server couldn't start." << std::endl;
+			delete server;
+			return 1;
+		}
+		
+		// Free memory
 		delete server;
+	}
+	else
+	{
+		usage();
 		return 1;
 	}
-	
-	// Free memory
-	delete server;
-	
+
 #endif
 	
     return 0;
-}
-
-void usage()
-{
-	printf("Usage: TextMiningServer port repertoryOfDataFile\n\n");
-	printf("       -h      Help\n");
 }

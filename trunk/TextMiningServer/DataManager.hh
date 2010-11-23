@@ -14,7 +14,10 @@
 # include <map>
 # include <vector>
 # include <sstream>
+# include <fstream>
+# include <iterator>
 # include "Singleton.hh"
+# include "Trie.hh"
 
 using namespace std;
 
@@ -49,6 +52,8 @@ class DataManager : public Singleton<DataManager> {
 	
 private:
 	
+	Trie	*trie;
+	
 	// Data tree
 	// \todo Définir la structure de données utilisée
 	//TREE	tree;	/*!< Arbre des données chargées */
@@ -64,6 +69,8 @@ private:
 	~DataManager ();
 	
 public:
+	
+	Trie	*getTrie();
 	
 	/*!
 	 *	\brief Chargement du fichier de données
@@ -117,6 +124,13 @@ public:
 	
 	// TEST FUNCTIONS ONLY
 	void TEST_exportJSON();
+	
+	/*
+	 ** unit test 
+	 ** for each word in the file, we check the tree and compare the frequence
+	 ** we should have with the frequence we get
+	 */
+	void TEST_TrieConstruction(std::string filePath, Trie *mytrie);
 	
 };
 
