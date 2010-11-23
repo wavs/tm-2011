@@ -18,8 +18,6 @@
 
 using namespace std;
 
-typedef map<string,string> TResultsDictionnary;
-
 /*!
  *	\struct s_result
  *	\brief Résultat à envoyer au client.
@@ -35,6 +33,8 @@ typedef struct
 	int		dist;	/*!< Distance par rapport au mot recherché. */
 }
 s_result;
+
+typedef std::vector<s_result*> TResults;
 
 /*!
  *	\class DataManager
@@ -85,9 +85,22 @@ public:
 	 *	des mots proches du mot recherché avec une distance de
 	 *	Levenstein-Damereau maximum.
 	 *
-	 *	\return Dictionnaire des résultats
+	 *	\return Vecteur de résultats
 	 */
-	TResultsDictionnary *browseDataWithOptions(string word, int dist);
+	TResults *browseDataWithOptions(string word, int dist);
+	
+	/*!
+	 *	\brief Tri des résultats
+	 *	\param results Résultats à trier
+	 *
+	 *	Méthode triant les résultats par:
+	 *		+ distance (croissant)
+	 *		+ fréquence (décroissante)
+	 *		+ ordre lexicographique (croissant)
+	 *
+	 *	\return Vecteur de résultats
+	 */
+	TResults *refineResults(TResults *results);
 	
 	/*!
 	 *	\brief Exportation des résultats sous forme JSON
@@ -99,7 +112,7 @@ public:
 	 *
 	 *	\return Chaine de caractères contenant le flux JSON
 	 */
-	string	exportJSON(vector<s_result*> *results);
+	string	exportJSON(TResults *results);
 	
 	
 	// TEST FUNCTIONS ONLY
