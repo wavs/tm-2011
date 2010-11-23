@@ -12,9 +12,10 @@
 #include <new>
 
 
-#include "TMalphabetMap.h"
-#include "TMtrie.h"
-#include "TMTrieDynamic.h"
+#include "src/TMalphabetMap.h"
+#include "src/TMtrie.h"
+#include "src/TMTrieDynamic.h"
+#include "src/serializer.h"
 
 #define DEFAULTPATH "tm.out"
 
@@ -142,8 +143,12 @@ void testOpenFile(std::string &filePath, std::string &destinationPath)
 #endif
 	mytrie->compileTrie(destinationPath);
 	testTrie(filePath, mytrie);
+	
+	//mytrie->printTrie(mytrie->getTrieRoot(), 0);
 	//mytrie->testMemoryTree();
-
+	Serializer* z = new Serializer(mytrie);
+	z->writeInFile("outPut.txt");
+	delete z;
 	delete mytrie;
 //#endif
 //	std::string test("n");
@@ -177,5 +182,6 @@ int main (int argc, char * const argv[]) {
 		std::cerr << "Not enough argument, didn't compute" << std::endl;
 		return 1;
 	}
+	
     return 0;
 }
