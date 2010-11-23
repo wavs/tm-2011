@@ -26,6 +26,7 @@
 		4BF44A3F1294100C00194645 /* Server.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44A3E1294100C00194645 /* Server.cc */; };
 		4BF44B9812944BAE00194645 /* DataManager.cc in Sources */ = {isa = PBXBuildFile; fileRef = 4BF44B9712944BAE00194645 /* DataManager.cc */; };
 		8DD76F650486A84900D96B5E /* main.cc in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cc */; settings = {ATTRIBUTES = (); }; };
+		FA19FA88129C243A00DCD885 /* levenshtein.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA19FA87129C243A00DCD885 /* levenshtein.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,8 +47,6 @@
 		4B62E7DD1296E218006A68E9 /* Client.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cc; sourceTree = "<group>"; };
 		4B7359AB1296DB45005C147E /* ClientFactory.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ClientFactory.hh; sourceTree = "<group>"; };
 		4B7359AC1296DB45005C147E /* ClientFactory.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClientFactory.cc; sourceTree = "<group>"; };
-		4BE3204112970CBC00982068 /* libjson.0.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; name = libjson.0.dylib; path = /opt/local/lib/libjson.0.dylib; sourceTree = "<absolute>"; };
-		4BE3204312970CBC00982068 /* libjson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libjson.a; path = /opt/local/lib/libjson.a; sourceTree = "<absolute>"; };
 		4BF44A3D1294100C00194645 /* Server.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Server.hh; sourceTree = "<group>"; };
 		4BF44A3E1294100C00194645 /* Server.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Server.cc; sourceTree = "<group>"; };
 		4BF44A4E12941C4A00194645 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
@@ -55,6 +54,8 @@
 		4BF44B9D12944D0300194645 /* DataManager.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataManager.hh; sourceTree = "<group>"; };
 		4BF44BAD12944FE500194645 /* Singleton.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Singleton.hh; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* TextMiningServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TextMiningServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA19FA86129C243A00DCD885 /* levenshtein.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = levenshtein.hh; sourceTree = "<group>"; };
+		FA19FA87129C243A00DCD885 /* levenshtein.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = levenshtein.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +76,6 @@
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
-				4BE3204112970CBC00982068 /* libjson.0.dylib */,
-				4BE3204312970CBC00982068 /* libjson.a */,
 			);
 			name = TextMiningServer;
 			sourceTree = "<group>";
@@ -84,6 +83,7 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				FA19FA85129C23A800DCD885 /* Levenshtein */,
 				4B62E7DB1296E207006A68E9 /* Client */,
 				4B7359AA1296DB1F005C147E /* ClientFactory */,
 				4BF44BAA12944FC600194645 /* Singleton */,
@@ -161,6 +161,15 @@
 			name = Documentation;
 			sourceTree = "<group>";
 		};
+		FA19FA85129C23A800DCD885 /* Levenshtein */ = {
+			isa = PBXGroup;
+			children = (
+				FA19FA86129C243A00DCD885 /* levenshtein.hh */,
+				FA19FA87129C243A00DCD885 /* levenshtein.cpp */,
+			);
+			name = Levenshtein;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -226,6 +235,7 @@
 				4BF44B9812944BAE00194645 /* DataManager.cc in Sources */,
 				4B7359AD1296DB45005C147E /* ClientFactory.cc in Sources */,
 				4B62E7DE1296E218006A68E9 /* Client.cc in Sources */,
+				FA19FA88129C243A00DCD885 /* levenshtein.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

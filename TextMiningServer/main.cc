@@ -9,11 +9,16 @@
 #include <iostream>
 #include "Server.hh"
 #include "DataManager.hh"
+#include "levenshtein.hh"
 
 #define TESTS 0
 
 int main (int argc, char * const argv[]) {
 
+	std::cout << distanceLeven("crise", "kries") << std::endl;
+	return 0;
+	
+	
 #if TESTS
 	
 	// Lancement des tests
