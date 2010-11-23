@@ -79,7 +79,6 @@ int Server::start ()
 		ClientFactory	*clientFactory = ClientFactory::getInstance();
 		currentClient = clientFactory->createClientInstance(clientSocket, &clientAddr);
 		
-		
 		// Création du thread spécifique au client
 		if (pthread_create(&clientThread, NULL, requestHandler, (void*)currentClient) != 0)
 		{
@@ -137,7 +136,7 @@ void *requestHandler (void *data)
 	close(client->getSocket());
 	
 	// Free memory
-	// FIXME
+	delete client;
 	
 	// Destruction du thread
 	pthread_exit(NULL);

@@ -59,16 +59,29 @@ Client::handleCommands(string *command)
 		
 		// Traitement sur le Trie pour trouver les mots proches
 		// du mot recherché
-		dataManager->browseDataWithOptions(word, distance);
+		TResults	*results = dataManager->browseDataWithOptions(word, distance);
 		
 		// Raffinage des résultats
-		// FIXME
+		results = dataManager->refineResults(results);
 		
 		// Export JSON
-		// FIXME
+		string jsonedResults = dataManager->exportJSON(results);
 		
 		// Envoi des résultats au client
-		// FIXME
+		ssize_t n = write(getSocket(), jsonedResults.c_str(), jsonedResults.size());
+		
+		if (n != jsonedResults.size())
+			std::cout << "Error: write results to client" << std::endl;
+		
+		// Free memory
+		int i;
+		for(i = 0; i < results->size(); i++)
+		{
+			s_result *r = results->at(i);
+			delete r->word;
+			free(r);
+		}
+		delete results;
 		
 	} else {
 		

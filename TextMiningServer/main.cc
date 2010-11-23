@@ -29,14 +29,14 @@ int main (int argc, char * const argv[]) {
 	// Server initialization
 	Server	*server = new Server(2342);
 	server->initialize();
+	
+	// Server runloop
 	if ( server->start() == 1)
 	{
 		std::cout << "ERROR: server couldn't start." << std::endl;
 		delete server;
 		return 1;
 	}
-	
-	// Server runloop
 	
 	// Free memory
 	delete server;
