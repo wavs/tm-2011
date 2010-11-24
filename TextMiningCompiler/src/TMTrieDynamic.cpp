@@ -376,7 +376,7 @@ int			TrieDynamic::importCompiledTrie(std::string filePath)
 		this->trieRoot = file1->front();
 		/* on devrait tous les mettres en tant que frere ici */
 		std::queue<s_node *> *temp = new std::queue<s_node *>;
-		temp->push(file1->front());
+		//temp->push(file1->front());
 		
 		s_node *tempfrere = NULL;
 		while (!file1->empty()) {
@@ -413,6 +413,7 @@ int			TrieDynamic::importCompiledTrie(std::string filePath)
 					else {
 						Y = file2->front();
 						file2->pop();
+						//file3->push(Y);
 					}
 					X->sons = Y;
 					while (Y) { /* !NULL */
@@ -422,7 +423,8 @@ int			TrieDynamic::importCompiledTrie(std::string filePath)
 							Y->brother = file2->front();
 							file2->pop();
 						}
-						file3->push(Y);
+						if (Y)
+							file3->push(Y);
 						Y = Y->brother;
 					}
 				}
