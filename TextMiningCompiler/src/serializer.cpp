@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <stack>
+#include <queue>
 #include <fstream>
 #include "serializer.h"
 #include "TMTrieDynamic.h"
@@ -25,7 +26,7 @@ Serializer::~Serializer()
 void
 Serializer::writeInFile(std::string fileOut)
 {
-	std::stack<s_node*> nodeStack;
+	std::queue<s_node*> nodeQueue;
 	this->fileOut = fileOut;
 	bool flag = true;
 	s_node* currentNode = this->abr->getTrieRoot();
@@ -39,12 +40,12 @@ Serializer::writeInFile(std::string fileOut)
 			f << " n" << std::endl;
 		f << "-" << std::endl;
 
-		nodeStack.push(currentNode);
+		nodeQueue.push(currentNode);
 		
-		while (!nodeStack.empty())
+		while (!nodeQueue.empty())
 		{
-			currentNode = nodeStack.top();
-			nodeStack.pop();
+			currentNode = nodeQueue.front();
+			nodeQueue.pop();
 			flag = false;
 			if (currentNode->brother != NULL)
 			{
@@ -52,9 +53,9 @@ Serializer::writeInFile(std::string fileOut)
 				f << currentNode->brother->letter << " " <<	currentNode->brother->frequence << " b";
 				if (currentNode->brother->sons == NULL && currentNode->brother->brother == NULL)
 					f << " f"<< std::endl;
-				else 
+				else
 					f << " n" << std::endl;
-				nodeStack.push(currentNode->brother);
+				nodeQueue.push(currentNode->brother);
 			}
 			if(currentNode->sons != NULL)
 			{
@@ -62,9 +63,9 @@ Serializer::writeInFile(std::string fileOut)
 				f << currentNode->sons->letter << " " <<	currentNode->sons->frequence << " s";
 				if (currentNode->sons->sons == NULL && currentNode->sons->brother == NULL)
 					f << " f"<< std::endl;
-				else 
+				else
 					f << " n" << std::endl;
-				nodeStack.push(currentNode->sons);
+				nodeQueue.push(currentNode->sons);
 			}
 			if (flag)
 				f << "-" << std::endl;
