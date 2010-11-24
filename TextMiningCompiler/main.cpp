@@ -66,7 +66,8 @@ void	testTrie(std::string &filePath, TrieDynamic *mytrie)
 	std::string			myLine;
 	std::istringstream	frequenceWordStr;
 	unsigned long int	frequenceWordInt;
-	
+	unsigned long int	countError = 0;
+	unsigned long int	nombreDeMots = 0;
 	myFileStream.open(filePath.c_str(), std::fstream::in);
 	
 	
@@ -89,14 +90,16 @@ void	testTrie(std::string &filePath, TrieDynamic *mytrie)
 				frequenceWordStr.clear();
 				frequenceWordStr.str(tokens[1]);
 				frequenceWordStr >> frequenceWordInt;
-				
+				nombreDeMots += 1;
 				/* here we test with the trie */
 				if (mytrie->getFrequence(tokens[0]) != frequenceWordInt) {
+					countError += 1;
 					std::cout << "NOT OK: tokens0: " << tokens[0] << "/frequence from trie: " << mytrie->getFrequence(tokens[0])
 					<< "/realfrequence: " << frequenceWordInt << std::endl;
 				}
 #if 0
 				else {
+					
 					std::cout << "OK    : tokens0: " << tokens[0] << "/frequence from trie: " << mytrie->getFrequence(tokens[0])
 					<< "/realfrequence: " << frequenceWordInt << std::endl;	
 				}
@@ -104,6 +107,7 @@ void	testTrie(std::string &filePath, TrieDynamic *mytrie)
 
 			}
 		}
+		std::cout << countError <<" Errors on: " << nombreDeMots << " words tested."<< std::endl;
 		myFileStream.close();
 	}
 	else
@@ -144,20 +148,41 @@ void	testAlphaMapAndOldTrie(std::string filePath)
 	
 }
 
+TrieDynamic *testDecompileTrieFromFile(std::string &filePath)
+{
+	TrieDynamic *mytrie = new TrieDynamic();
+	mytrie->importCompiledTrie(filePath);
+	return mytrie;
+}
+
 void testOpenFile(std::string &filePath, std::string &destinationPath)
 {
-	TrieDynamic *mytrie = new TrieDynamic(filePath);
+	TrieDynamic *mytrie;
+#if 1
+	mytrie = new TrieDynamic(filePath);
 	std::cout << "we succeed in creating the trie" << std::endl;
 
 	mytrie->compileTrieToFile(destinationPath);
 	std::cout << "we Succeed in compiling the tree" << std::endl;
 
 	//testTrie(filePath, mytrie);
+	delete mytrie;
+	/* testing the decompiler */
+#endif
+	mytrie = testDecompileTrieFromFile(destinationPath);
+	std::cout << "we succeed in building the Trie from the compiled form"<< std::endl;
+	std::cout << "we're now testing the compiled trie " << std::endl;
+	testTrie(filePath, mytrie);
+	
 	
 	//mytrie->printTrie(mytrie->getTrieRoot(), 0);
 	//mytrie->testMemoryTree();
+	std::cout << "freeing memory" << std::endl;
 	delete mytrie;
 }
+
+
+
 
 
 int main (int argc, char * const argv[]) {
