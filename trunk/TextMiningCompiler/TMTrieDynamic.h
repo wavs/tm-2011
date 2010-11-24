@@ -38,6 +38,7 @@ public:
 	uint32_t	getFrequence(std::string word);
 	/* Dump the structure char* trie to the file */
 	int			compileTrie(std::string destinationPath);
+	int			decompileTrie(std::string filePath);
 	
 
 

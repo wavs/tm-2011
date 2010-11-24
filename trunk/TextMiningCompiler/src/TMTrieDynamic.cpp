@@ -16,12 +16,20 @@
 #include <vector>
 #include <new>
 #include <stdio.h>
+#include <queue>
 
+#define  Ko_1 1024
 
 TrieDynamic::TrieDynamic(std::string &filePath):
 	trieRoot(NULL)
 {
 	this->parseFileToTrie(filePath);
+}
+
+TrieDynamic::TrieDynamic():
+	trieRoot(NULL)
+{
+	
 }
 
 TrieDynamic::~TrieDynamic(){
@@ -123,42 +131,6 @@ s_node		*TrieDynamic::addWord(s_node  *currentNode, std::string word, uint32_t f
 	else {
 		return (NULL);
 	}
-
-	
-#if 0
-	
-	s_node	*currentCell = this->trieRoot;
-	s_node	*tempCell = NULL;
-	s_node	*nextCell = this->trieRoot;
-	
-	int			i;
-	
-	for (i = 0; i < word.size() - 1; ++i) {
-		tempCell = this->getCell(nextCell, word[i]);
-		if (currentCell != NULL) {
-			nextCell = currentCell->sons;
-		}
-		else {
-			currentCell = this->addCell(nextCell, word[i], 0);
-			if ((this->trieRoot == NULL) && (i == 0) ){
-				this->trieRoot = currentCell;
-			}
-			if (!currentCell) return;
-			nextCell = currentCell;
-		}
-	}
-	
-	currentCell = this->getCell(nextCell, word[i]);
-	if (currentCell != NULL) {
-		this->setFrequence(currentCell, frequence);
-		nextCell = currentCell->sons;
-	}
-	else {
-		currentCell = this->addCell(nextCell, word[i], frequence);
-		if (!currentCell) return;
-		nextCell = NULL;
-	}
-#endif / *old addWord* /
 }
 
 s_node	*TrieDynamic::addCell(s_node	*currentCell, char	letter, uint32_t frequence){
@@ -230,9 +202,135 @@ void		TrieDynamic::deleteNode(s_node	*node)
 }
 
 
-int			TrieDynamic::compileTrie(std::string destinationPath){
-/* FIXME */
+int			TrieDynamic::compileTrieToFile(std::string destinationPath){
+	/* creating queue here */
+	std::queue<s_node *> *file1 = new std::queue<s_node *>;
+	std::queue<s_node *> *file2 = new std::queue<s_node *>;
+	file1->push(this->trieRoot);
+	/* initialisation of the outputFile */
+	std::ofstream		myFileStream;
+	
+	myFileStream.open(destinationPath.c_str(), std::fstream::out);
+	
+	if (myFileStream.is_open())
+	{
+		while (!file1->empty()) {
+			while (!file1->empty()) {
+				s_node * x = file1->front();
+				file1->pop();
+				if ((!x)) { // x == NULL
+					if (file1->size() > 0) {
+						myFileStream << "/" << std::endl;
+					}
+				}
+				else {
+					myFileStream << "#"  << x->letter << ","<< x->frequence;
+					s_node *brother = x->sons;
+					file2->push(brother);
+					do {
+						
+						if (brother) {
+							brother = brother->brother;
+							file2->push(brother);
+						}
+						
+						
+					} while (brother);
+				}
+				
+			}
+			delete file1;
+			file1 = file2;
+			file2 = new std::queue<s_node *>;
+			if (!file1->empty()) {
+				myFileStream << "%\n";
+			}
+		}
+		myFileStream.close();
+	}
+	else
+	{
+		std::cerr << "Unable to open file"; 
+	}
+	/* free memory */
+	delete file2;
+	delete file1;
 	return 0;
+}
+
+/* return 1 if '/' at the end 0 if '%' at the end of line */
+int			TrieDynamic::pushMyListWithLine(std::queue<s_node*> *myList, char *line)
+{
+	return 0;
+}
+
+int			TrieDynamic::importCompiledTrie(std::string filePath)
+{
+	/* creating queue here */
+	std::queue<s_node *>	*file1 = new std::queue<s_node *>;
+	std::queue<s_node *>	*file2 = new std::queue<s_node *>;
+	std::queue<s_node *>	*file3 = new std::queue<s_node *>;
+	/* initialisation of the outputFile */
+	std::ifstream			myFileStream;
+	/* creating the Trie */
+	if (this->trieRoot){
+		delete this->trieRoot;
+		this->trieRoot = NULL;
+	}
+	
+	char					*line = new char[Ko_1];
+	
+	myFileStream.open(filePath.c_str(), std::fstream::in);
+	
+	if (myFileStream.is_open())
+	{
+		/* init the file1 == queue1 */
+		myFileStream.getline(line, Ko_1);
+		this->pushMyListWithLine(file1, line);
+		/* recupérer le premier de la file1, ce sera le trieRoot */
+		this->trieRoot = file1->front();
+		
+		while (!file1->empty()) {
+			/* enfile file2 with le reste jusqu'a % */
+			myFileStream.getline(line, Ko_1);
+			while (this->pushMyListWithLine(file2, line)) {
+				myFileStream.getline(line, Ko_1);
+			}
+			/* Creating the Trie again*/
+			while (!file1->empty()) {
+				s_node *X  = file1->front();
+				file1->pop();
+				if (X){ /* the Node X exist*/
+					s_node *Y = file2->front();
+					file2->pop();
+					X->sons = Y;
+					while (Y) { /* !NULL */
+						Y->brother = file2->front();
+						file2->pop();
+						file3->push(Y);
+						Y = Y->brother;
+					}
+				}
+			}
+			delete file1;
+			file1 = file3;
+			file3 = new std::queue<s_node *>;
+			delete file2;
+			file2 = new std::queue<s_node *>;
+			
+		}
+	}
+	else
+	{
+		std::cerr << "Unable to open file"; 
+	}
+	/* free memory */
+	delete file3;
+	delete file2;
+	delete file1;
+	return 0;
+	
+		
 }
 
 

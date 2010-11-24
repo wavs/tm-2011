@@ -17,7 +17,7 @@
 #include "src/TMTrieDynamic.h"
 #include "src/serializer.h"
 
-#define DEFAULTPATH "tm.out"
+#define DEFAULTPATH "/Users/gui/Documents/lectures EPITA/ING3/TextMining/textmining/Projet/tm.out"
 
 #define PATH "/Users/gui/Documents/lectures EPITA/ING3/TextMining/textmining/Projet/test.txt"
 
@@ -111,48 +111,52 @@ void	testTrie(std::string &filePath, TrieDynamic *mytrie)
 		std::cerr << "Unable to open file"; 
 	}
 }
-
-void testOpenFile(std::string &filePath, std::string &destinationPath)
+void testSomeWord(TrieDynamic *mytrie)
 {
-	AlphabetMap *alphaMap = new AlphabetMap(filePath);
-	//alphaMap->printAlphabet();
-	//alphaMap->printSizeOfProperties();
-	//alphaMap->printConvertionMap();
-	//std::cout << "position of a:"<<(int)alphaMap.getPosition('a') << std::endl;
-//#if 0
-	//Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
-	TrieDynamic *mytrie = new TrieDynamic(filePath);
-	std::cout << "we succeed in creating the trie" << std::endl;
-#if 0
-	{
 	std::string test1("n942a");
 	std::cout << "my frequence n942a: " << mytrie->getFrequence(test1) << std::endl;
 	
 	std::string test2("n942");
 	std::cout << "my frequence n942: " << mytrie->getFrequence(test2) << std::endl;
-
+	
 	std::string test3("n936");
 	std::cout << "my frequence n936: " << mytrie->getFrequence(test3) << std::endl;
-
+	
 	std::string test4("n941");
 	std::cout << "my frequence n941: " << mytrie->getFrequence(test4) << std::endl;
-
+	
 	std::string test5("n939");
 	std::cout << "my frequence n939: " << mytrie->getFrequence(test5) << std::endl;
-	}
-#endif
-	mytrie->compileTrie(destinationPath);
-	testTrie(filePath, mytrie);
+}
+
+void	testAlphaMapAndOldTrie(std::string filePath)
+{
+	AlphabetMap *alphaMap = new AlphabetMap(filePath);
+	alphaMap->printAlphabet();
+	alphaMap->printSizeOfProperties();
+	alphaMap->printConvertionMap();
+	std::cout << "position of a:"<<(int)alphaMap->getPosition('a') << std::endl;
+	
+	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
+	
+	delete	 mytrie;
+
+	
+}
+
+void testOpenFile(std::string &filePath, std::string &destinationPath)
+{
+	TrieDynamic *mytrie = new TrieDynamic(filePath);
+	std::cout << "we succeed in creating the trie" << std::endl;
+
+	mytrie->compileTrieToFile(destinationPath);
+	std::cout << "we Succeed in compiling the tree" << std::endl;
+
+	//testTrie(filePath, mytrie);
 	
 	//mytrie->printTrie(mytrie->getTrieRoot(), 0);
 	//mytrie->testMemoryTree();
-	Serializer* z = new Serializer(mytrie);
-	z->writeInFile("outPut.txt");
-	delete z;
 	delete mytrie;
-//#endif
-//	std::string test("n");
-//	std::cout << test.substr(0).at(0) << std::endl;
 }
 
 
