@@ -14,6 +14,7 @@
 #include <iterator>
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <new>
 #include <stdio.h>
 
@@ -231,8 +232,41 @@ void		TrieDynamic::deleteNode(s_node	*node)
 
 
 int			TrieDynamic::compileTrie(std::string destinationPath){
-/* FIXME */
+	
+	/*
+	 ParcoursLargeur(Arbre A) {
+	 f = FileVide
+	 enfiler(Racine(A), f)
+	 Tant que (f != FileVide) {
+	 nœud = defiler(f)
+	 Visiter(nœud)                        //On choisit de faire une opération
+	 Si (gauche(nœud) != null) Alors
+	 enfiler(gauche(nœud), f)
+	 Si (droite(nœud) != null) Alors
+	 enfiler(droite(nœud), f)
+	 }
+	 }
+	 */
+	
+	std::queue<s_node*> ourQueue;
+	s_node* racine = this->trieRoot;
+	s_node* node = NULL;
+	ourQueue.push(racine);
+	while (!ourQueue.empty()) {
+		node = ourQueue.pop();
+		/* we print our node to the file */
+	}
+	/* on prend un noeud */
+	/* on l'enfile */
+	/* on ecrie le noeud*/
+	/* la file est vide on saute une ligne */
+	
 	return 0;
+}
+
+int			TrieDynamic::decompileTrie(std::string filePath)
+{
+	
 }
 
 
