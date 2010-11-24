@@ -19,6 +19,7 @@
 #include <queue>
 
 #define  Ko_1 1024
+#define  Ko_64 65536
 
 TrieDynamic::TrieDynamic(std::string &filePath):
 	trieRoot(NULL)
@@ -206,7 +207,19 @@ int			TrieDynamic::compileTrieToFile(std::string destinationPath){
 	/* creating queue here */
 	std::queue<s_node *> *file1 = new std::queue<s_node *>;
 	std::queue<s_node *> *file2 = new std::queue<s_node *>;
+	s_node *brother;
 	file1->push(this->trieRoot);
+	brother = this->trieRoot;
+	
+	do {
+		
+		if (brother) {
+			brother = brother->brother;
+			file1->push(brother);
+		}
+		
+		
+	} while (brother);
 	/* initialisation of the outputFile */
 	std::ofstream		myFileStream;
 	
@@ -224,8 +237,8 @@ int			TrieDynamic::compileTrieToFile(std::string destinationPath){
 					}
 				}
 				else {
-					myFileStream << "#"  << x->letter << ","<< x->frequence;
-					s_node *brother = x->sons;
+					myFileStream << "?"  << x->letter << ","<< x->frequence;
+					brother = x->sons;
 					file2->push(brother);
 					do {
 						
@@ -261,6 +274,72 @@ int			TrieDynamic::compileTrieToFile(std::string destinationPath){
 /* return 1 if '/' at the end 0 if '%' at the end of line */
 int			TrieDynamic::pushMyListWithLine(std::queue<s_node*> *myList, char *line)
 {
+	std::string myString(line);
+	std::string substring;
+	std::istringstream frequenceWordStr;
+	int					frequenceWordInt;
+
+	int pos1 = 0;
+	int pos2 = 0;
+	int ending = 0;
+	/* exemple of two different lines */
+	//#6,705#7,695#8,2014#9,758#a,810#i,69619/
+	//#0,5349#1,569#2,763%
+	pos1 = myString.find("?", pos1);
+	pos2 = myString.find("?", pos1 + 1);
+	ending = myString.find("/");
+	std::string currentFreq;
+	char c;
+
+	while (pos2 > pos1) {
+		/* get substring */
+		substring = myString.substr(pos1 + 1, pos2 - 1);
+		/* decompose substring */
+		c = substring.substr(0, substring.find(",")).at(0);
+		currentFreq = substring.substr(substring.find(",") + 1);
+		frequenceWordStr.clear();
+		frequenceWordStr.str(currentFreq);
+		frequenceWordStr >> frequenceWordInt;
+		/* create s_node* */
+		s_node *node = new s_node;
+		/* init s_node* */
+		node->brother	= NULL;
+		node->sons		= NULL;
+		node->frequence	= frequenceWordInt;
+		node->letter		= c;
+		/* push the s_node* */
+		myList->push(node);
+		/* get new pos1 and pos2 */
+		pos1 = myString.find("?", pos2);
+		pos2 = myString.find("?", pos1 + 1);
+	}
+	if (pos1 > pos2)
+	{
+		substring = myString.substr(pos1 + 1);
+		
+
+		c = substring.substr(0, substring.find(",")).at(0);
+		currentFreq = substring.substr(substring.find(",") + 1);
+		
+		frequenceWordStr.clear();
+		frequenceWordStr.str(currentFreq);
+		frequenceWordStr >> frequenceWordInt;
+		s_node *node = new s_node;
+		node->brother	= NULL;
+		node->sons		= NULL;
+		node->frequence	= frequenceWordInt;
+		node->letter		= c;
+		myList->push(node);
+	}
+	
+	
+	if (ending == -1)
+		return 1; // maybe we should push a NULL here too.
+	else {
+		/* we should push a NULL value */
+		myList->push(NULL);
+	}
+
 	return 0;
 }
 
@@ -272,41 +351,77 @@ int			TrieDynamic::importCompiledTrie(std::string filePath)
 	std::queue<s_node *>	*file3 = new std::queue<s_node *>;
 	/* initialisation of the outputFile */
 	std::ifstream			myFileStream;
+	s_node *X;
 	/* creating the Trie */
 	if (this->trieRoot){
 		delete this->trieRoot;
 		this->trieRoot = NULL;
 	}
 	
-	char					*line = new char[Ko_1];
+	char					*line = new char[Ko_64];
 	
 	myFileStream.open(filePath.c_str(), std::fstream::in);
 	
 	if (myFileStream.is_open())
 	{
 		/* init the file1 == queue1 */
-		myFileStream.getline(line, Ko_1);
-		this->pushMyListWithLine(file1, line);
+		memset(line, 0, Ko_64);
+		myFileStream.getline(line, Ko_64);
+		while (!(this->pushMyListWithLine(file1, line))) {
+			memset(line, 0, Ko_64);
+			
+			myFileStream.getline(line, Ko_64);
+		}
 		/* recupérer le premier de la file1, ce sera le trieRoot */
 		this->trieRoot = file1->front();
+		/* on devrait tous les mettres en tant que frere ici */
+		std::queue<s_node *> *temp = new std::queue<s_node *>;
+		temp->push(file1->front());
+		
+		s_node *tempfrere = NULL;
+		while (!file1->empty()) {
+			tempfrere = file1->front();
+			file1->pop();
+			temp->push(tempfrere);
+			if(!file1->empty())
+			{
+				tempfrere->brother = file1->front();	
+			}
+		}
+		/* we put the temp in the file1 */
+		delete file1;
+		file1 = temp;
 		
 		while (!file1->empty()) {
 			/* enfile file2 with le reste jusqu'a % */
-			myFileStream.getline(line, Ko_1);
-			while (this->pushMyListWithLine(file2, line)) {
-				myFileStream.getline(line, Ko_1);
+			memset(line, 0, Ko_64);
+
+			myFileStream.getline(line, Ko_64);
+			while (!(this->pushMyListWithLine(file2, line))) {
+				memset(line, 0, Ko_64);
+
+				myFileStream.getline(line, Ko_64);
 			}
 			/* Creating the Trie again*/
 			while (!file1->empty()) {
-				s_node *X  = file1->front();
+				X  = file1->front();
 				file1->pop();
 				if (X){ /* the Node X exist*/
-					s_node *Y = file2->front();
-					file2->pop();
+					s_node *Y;
+					if (file2->empty())
+						Y = NULL;
+					else {
+						Y = file2->front();
+						file2->pop();
+					}
 					X->sons = Y;
 					while (Y) { /* !NULL */
-						Y->brother = file2->front();
-						file2->pop();
+						if (file2->empty())
+							Y->brother = NULL;
+						else {
+							Y->brother = file2->front();
+							file2->pop();
+						}
 						file3->push(Y);
 						Y = Y->brother;
 					}
