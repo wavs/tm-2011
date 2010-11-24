@@ -295,7 +295,7 @@ uint32_t	Trie::getFrequence(std::string word){
 }
 
 void		Trie::deleteNode(s_node	*node)
-{
+{ 
 	if (node != NULL) {
 		deleteNode(node->brother);
 		deleteNode(node->sons);
