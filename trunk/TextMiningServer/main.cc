@@ -11,7 +11,7 @@
 #include "DataManager.hh"
 #include "levenshtein.hh"
 
-#define TESTS 0
+#define TESTS 1
 
 void printTrie(s_node* node, int space, char type)
 {
@@ -39,10 +39,29 @@ int main (int argc, char * const argv[]) {
 	// Lancement des tests
 	DataManager	*dataManager = DataManager::getInstance();
 	//dataManager->TEST_exportJSON();
-	dataManager->loadFile("/Users/wavs/Desktop/test.txt");
+	dataManager->loadFile("/Users/wavs/Desktop/output.txt");
 	std::cout << "Tree builded." << std::endl;
 	
-	printTrie(dataManager->getTrie()->getTrieRoot(), 1, 'R');
+	//printTrie(dataManager->getTrie()->getTrieRoot(), 0, 'R');
+	
+	dataManager->TEST_TrieConstruction("/Users/wavs/Desktop/iop.txt", dataManager->getTrie());
+	
+	int i = 0;
+	s_node* root = dataManager->getTrie()->getTrieRoot();
+	while (root != NULL) {
+		root = root->sons;
+		i++;
+	}
+	
+	int j = 0;
+	s_node* root2 = dataManager->getTrie()->getTrieRoot();
+	while (root2 != NULL) {
+		root2 = root2->brother;
+		j++;
+	}
+	
+	std::cout << "Profondeur de l'arbre (sons)" << i << std::endl;
+	std::cout << "Profondeur de l'arbre (brothers)" << j << std::endl;
 	
 #else
 	
