@@ -1,11 +1,10 @@
-/*
- *  TMtrie.h
- *  TextMiningCompiler
- *
- *  Created by pierre on 11/18/10.
- *  Copyright 2010 __MyCompanyName__. All rights reserved.
- *
- */
+/*!
+ *  \file TMtrie.h
+ *	\author Pierre Guilbert
+ *	\version 1.0
+ *  \date 18 novembre 2010
+ *  \brief Implémentation du Trie sous forme statique (premier fils gauche frer droit)
+*/
 #ifndef TMTRIE_H_
 # define TMTRIE_H_
 
@@ -24,7 +23,7 @@
 # define MB_16 16777216
 
 
-/*
+/*!
 ** Our Trie Structure in Memory:
 ** Header at the begining of our structure:
 **  [alphabet size][TrieSize (unsigned long int) ][127 char long array containing the mapping of our alphabet][our alphabet]
@@ -35,6 +34,12 @@
 */
 
 
+
+/*!
+ *	\struct s_header
+ *	\brief the header of our big structure
+ *
+ */
 typedef struct s_header{
 	char				alphabetSize;
 	uint32_t			trieSize;
