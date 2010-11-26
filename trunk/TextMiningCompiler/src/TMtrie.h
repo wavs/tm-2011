@@ -10,6 +10,8 @@
 # define TMTRIE_H_
 
 # include "TMalphabetMap.h"
+# include <stdlib.h>
+# include <stdint.h>
 
 # define SIZE_ALPHABET 127          /* Using a-z and space */
 

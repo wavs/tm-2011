@@ -13,7 +13,7 @@
 #include <iterator>
 #include <iostream>
 
-#include "TMAlphabetMap.h"
+#include "TMalphabetMap.h"
 
 
 void AlphabetMap::parseFileToAlphabet(std::string path)
