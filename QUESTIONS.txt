@@ -31,8 +31,8 @@ Unit Test pour le serveur
 fonctionnait pas (même avec une distance élevée) ?
 ================================================================================
 
-Exemple: Maison avec une distance 1, Certain mots n'apparaissent pas dans
-les résultats
+Exemple: Sur les dizaines de mots testé avec une distance de 0-1-2
+Aucune erreur.
 
 
 ================================================================================
@@ -59,6 +59,31 @@ juste une chaîne de caractères en entrée, donner le processus d’évaluation
 ainsi que les résultats
 ================================================================================
 
+
+Le critère peut être proportionnel à la longueur du mots.
+Pondéré par la somme des fréquences de lettres du mots dans le dictionnaire.
+
+Si la chaine de caractères et un seul mot alors nous pouvons de façon itérative
+évaluer le max des fréquences au distance les plus proches.
+Exemple: Si le mots existe (donc distance de zéro) et à une fréquence de 200.
+	Alors qu'un mot avec une distance de 'un' avec une fréquence de 43434343 existe.
+	Il est probable que ce second mots soit le bon. Nous pouvons même considérer
+	ce genre de problème comme étant du bruit.
+	
+	Une façon de décider à quelle niveau de distance le mot le plus probable se trouve.
+		-Une technique proportionnel -- fréquence du mot trouvé / par rapport à la distance X
+		exemple: rapport doit être superieur à 1/20000
+		
+		L'on garde selon les niveaux de distance et la fréquence, avec un système de pondération
+		et un max, l'on trouve le mot le plus probable et donc le niveau automatique de distance.
+
+Dans le cas où la chaîne de caractère est une phrase ou plus.
+	L'on sélectionne les mots à plus forte fréquence dans le texte passé.
+	Ou de manière aléatoire.
+	Nous pouvons en sélectionner un nombre au hasard (1 pour cent des mots, 10 pour cents ou autres)
+
+	Puis on utilise la méthode précédente, on utilise la moyenne des valeurs de distances trouvé.
+	Moyenne haute, ou le max. Le quatrile supérieur est aussi une possibilité.
 
 
 
