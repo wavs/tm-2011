@@ -9,7 +9,7 @@
 
 #include "levenshtein.hh"
 
-#define PRINT_MATRIX 0
+#define PRINT_MATRIX 1
 
 int min(int v1, int v2)
 {
@@ -32,7 +32,7 @@ int distanceLeven(std::string str1, std::string str2)
 	for (int i = 1; i <= str1.size(); i++)
 	{
 		db = 0;
-		for (int j = 1; j <= str1.size(); j++)
+		for (int j = 1; j <= str2.size(); j++)
 		{
 			if (str1[i - 1] == str2[j - 1])
 				db = 0;
