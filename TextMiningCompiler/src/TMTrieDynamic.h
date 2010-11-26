@@ -11,6 +11,8 @@
 # include <map>
 # include <iostream>
 # include <queue>
+# include <stdlib.h>
+# include <stdint.h>
 
 typedef struct s_node {
 	s_node		*sons;
