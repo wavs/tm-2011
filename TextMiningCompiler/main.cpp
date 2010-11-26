@@ -12,8 +12,6 @@
 #include <new>
 
 
-#include "src/TMalphabetMap.h"
-#include "src/TMtrie.h"
 #include "src/TMTrieDynamic.h"
 #include "src/serializer.h"
 
@@ -133,20 +131,6 @@ void testSomeWord(TrieDynamic *mytrie)
 	std::cout << "my frequence n939: " << mytrie->getFrequence(test5) << std::endl;
 }
 
-void	testAlphaMapAndOldTrie(std::string filePath)
-{
-	AlphabetMap *alphaMap = new AlphabetMap(filePath);
-	alphaMap->printAlphabet();
-	alphaMap->printSizeOfProperties();
-	alphaMap->printConvertionMap();
-	std::cout << "position of a:"<<(int)alphaMap->getPosition('a') << std::endl;
-	
-	Trie *mytrie = new Trie(MB_512, *alphaMap, filePath);
-	
-	delete	 mytrie;
-
-	
-}
 
 TrieDynamic *testDecompileTrieFromFile(std::string &filePath)
 {
@@ -190,6 +174,7 @@ int main (int argc, char * const argv[]) {
 	std::string *filePath;
 	std::string *destinationPath;
 	
+	
 	if (argc > 1)
 	{
 		filePath = new std::string(argv[1]);
@@ -201,10 +186,14 @@ int main (int argc, char * const argv[]) {
 			destinationPath = new std::string(DEFAULTPATH);
 		}
 		// build tree from file
-		testOpenFile(*filePath, *destinationPath);
+		//testOpenFile(*filePath, *destinationPath);
+		TrieDynamic *mytrie = new TrieDynamic(*filePath);
 		// compile tree from class
+		Serializer serial(mytrie);
+		serial.writeInFile(*destinationPath);
 		// save to destinationPath
-		std::cout << *filePath << " " << *destinationPath << " "<< std::endl;
+		delete mytrie;
+		//std::cout << *filePath << " " << *destinationPath << " "<< std::endl;
 
 	}
 	else {
