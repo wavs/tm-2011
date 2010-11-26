@@ -17,44 +17,8 @@
 
 #define DEFAULTPATH "tm.out"
 
-#define PATH "/Users/gui/Documents/lectures EPITA/ING3/TextMining/textmining/Projet/test.txt"
-
-void testMap(void)
-{
-	std::map<char,int> mymap;
-	std::map<char,int>::iterator it;
-	
-	mymap['a']=50;
-	mymap['b']=100;
-	mymap['c']=150;
-	mymap['d']=200;
-	mymap['b']=14;
-		
-	// print content:
-	std::cout << "elements in mymap:" << std::endl;
-	for (it = mymap.begin(); it != mymap.end(); it++) {
-		std::cout << it->first << "=>" << it->second << std::endl;
-	}
-}
-
-void testSet(void)
-{
-	std::set<char> myset;
-	std::set<char>::iterator it;
-	
-	std::vector<char> convertionMap (127);
-	
-	for (int i = 0; i < 128; ++i) {
-		convertionMap[i] = i;
-	}
-	convertionMap['f'] = 13;
-	convertionMap['d'] = 12;
-	std::cout << convertionMap[127] << std::endl;
-}
-
-
 /*!
-** unit test 
+** \brief unit test 
 ** for each word in the file, we check the tree and compare the frequence
 ** we should have with the frequence we get
 */
@@ -113,6 +77,11 @@ void	testTrie(std::string &filePath, TrieDynamic *mytrie)
 		std::cerr << "Unable to open file"; 
 	}
 }
+
+/*!
+ * \brief unit test
+ *  We check the frequence in the trie of some words predetermined
+ */
 void testSomeWord(TrieDynamic *mytrie)
 {
 	std::string test1("n942a");
@@ -132,6 +101,11 @@ void testSomeWord(TrieDynamic *mytrie)
 }
 
 
+
+/*!
+ * \brief  creating the trie from the compiled file
+ */
+
 TrieDynamic *testDecompileTrieFromFile(std::string &filePath)
 {
 	TrieDynamic *mytrie = new TrieDynamic();
@@ -139,6 +113,11 @@ TrieDynamic *testDecompileTrieFromFile(std::string &filePath)
 	return mytrie;
 }
 
+
+/*!
+ * \brief unit test
+ ** testing compilation of the Trie and decompilation
+ */
 void testOpenFile(std::string &filePath, std::string &destinationPath)
 {
 	TrieDynamic *mytrie;
