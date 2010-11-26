@@ -16,6 +16,7 @@
 #include <vector>
 #include <new>
 #include <stdio.h>
+#include <string.h>
 #include <queue>
 
 #define  Ko_1 1024
