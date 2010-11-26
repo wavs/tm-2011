@@ -17,7 +17,7 @@
 #include "src/TMTrieDynamic.h"
 #include "src/serializer.h"
 
-#define DEFAULTPATH "/Users/gui/Documents/lectures EPITA/ING3/TextMining/textmining/Projet/tm.out"
+#define DEFAULTPATH "tm.out"
 
 #define PATH "/Users/gui/Documents/lectures EPITA/ING3/TextMining/textmining/Projet/test.txt"
 

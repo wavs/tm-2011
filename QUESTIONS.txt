@@ -1,14 +1,29 @@
 ================================================================================
-1) Decriver les choix de design de votre programme 
+1) Décriver les choix de design de votre programme 
 ================================================================================
 
+Pour le compilateur:
+	La structure mémoire du dictionnaire se trouve être un: TRIE
+	Nous exportons notre arbre sous la forme d'un fichier de type maison bien pensé
+
+Pour le serveur:
+ 	Serveur classique, initialisation des sockets, de l'adresse.
+	A chaque socket client, on crée un thread indépendant, qui s'occupe
+	de la requête.
 
 
 ================================================================================
 2) Lister l’ensemble des tests effectués sur votre serveur
 (en plus des units tests)
 ================================================================================
+Unit Test pour le compilateur
+ -Unit Test Creation de l'arbre
+ -Unit Test Export/Import de l'arbre
 
+Unit Test pour le serveur
+ -Unit Test le jSon
+ -Unit Test bon chargement de l'arbre
+ -Unit Test sur Levenstein
 
 
 ================================================================================
@@ -16,12 +31,27 @@
 fonctionnait pas (même avec une distance élevée) ?
 ================================================================================
 
+Exemple: Maison avec une distance 1, Certain mots n'apparaissent pas dans
+les résultats
+
 
 ================================================================================
 4) Quelle est la structure de données que vous avez
 implémentées dans votre projet, pourquoi ?
 ================================================================================
 
+Arbre Trie en version: premier fils droit frère gauche.
+
+Historiquement, nous avions espéré un nombre de noeuds total nécessaire
+inférieur à 3 200 000 noeuds. Dans ce but nous avions implémenté une version
+statique du Trie, ou le parcours de l'arbre se faisait en grand O de n.
+Malheureusement il nous faut un peu plus de 10 millions de noeuds.
+
+Nous sommes donc passé à une version totalement dynamique, privilégiant l'espace
+mémoire à la rapidité.
+
+Un noeud contient deux pointeurs, un character et un uint32_t: Sous architecture
+32 bits notre noeud occupe donc en mémoire 4 + 4 + 4 + 4 octets == 16 octets.
 
 ================================================================================
 5) Proposer un réglage automatique de la distance pour un programme qui prend
@@ -30,13 +60,39 @@ ainsi que les résultats
 ================================================================================
 
 
+
+
 ================================================================================
 6) Comment comptez vous améliorer les performances de votre programme
 ================================================================================
+Compresser le TRIE, ou alors utiliser un K-Gram Overlap ou d'autres algorithmes
+à base d'index.
 
-
+Notre parcours de l'arbre pour trouver les mots les plus proches (l'algorithme
+de recherche approximative) pourrait être améliorer. En effet notre code 
+n'est peut-être pas le plus performant.
 
 ================================================================================
 7) Que manque t-il à votre correcteur orthographique pour
- qu’il soit `a l’état de l’art ?
+ qu’il soit à l’état de l’art ?
 ================================================================================
+
+Il faudrait comme cité plus haut, que notre représentation mémoire de notre
+dictionnaire soit sous une forme différente/transformé ayant subit un pré-traitement
+k-gram).
+
+Une version Patricia Trie pourrait être aussi intéressante.
+
+Il parait évident que les correcteurs orthographique présent dans les différents
+logiciels grand public (téléphone portable, explorateur web etc..) se basent sur
+un principe similaire, avec toutefois des arbres de taille inférieure.
+
+Pour cela une étude statistique du dictionnaire pourrait être intéressante, afin
+de supprimer les occurrences de mots peu probable (très faible fréquence).
+Une façon simple de l'implémenter serait de disposer d'un seuil de mots, par
+exemple 80 000. Et de ne garder que les mots à la plus forte fréquence.
+
+Il serait même possible d'utiliser une version statique, avec un seuil encore
+plus faible, afin d'avoir des performances en termes de rapidité (peu probables pour 
+du mobile).
+
