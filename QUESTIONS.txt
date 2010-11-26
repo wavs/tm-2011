@@ -10,11 +10,11 @@ Pour le serveur:
  	Serveur classique, initialisation des sockets, de l'adresse.
 	A chaque socket client, on crée un thread indépendant, qui s'occupe
 	de la requête.
-	L'algorithme de Damerau–Levenshtein est dans sa version itératives pour gagner en performance sur les mots de taille importante.
+	L'algorithme de Damerau-Levenshtein est dans sa version itératives pour gagner en performance sur les mots de taille importante.
 
 
 ================================================================================
-2) Listez l’ensemble des tests effectués sur votre serveur
+2) Listez l'ensemble des tests effectués sur votre serveur
 (en plus des units tests)
 ================================================================================
 Unit Test pour le compilateur
@@ -56,7 +56,7 @@ Un noeud contient deux pointeurs, un caractère et un uint32_t: Sous architectur
 
 ================================================================================
 5) Proposer un réglage automatique de la distance pour un programme qui prend
-juste une chaîne de caractères en entrée, donner le processus d’évaluation 
+juste une chaîne de caractères en entrée, donner le processus d'évaluation 
 ainsi que les résultats
 ================================================================================
 
@@ -100,7 +100,7 @@ n'est peut-être pas le plus performant.
 
 ================================================================================
 7) Que manque t-il à votre correcteur orthographique pour
- qu’il soit à l’état de l’art ?
+ qu'il soit à l'état de l'art ?
 ================================================================================
 
 Il faudrait comme cité plus haut, que notre représentation mémoire de notre
