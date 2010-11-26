@@ -55,7 +55,7 @@ void testSet(void)
 }
 
 
-/*
+/*!
 ** unit test 
 ** for each word in the file, we check the tree and compare the frequence
 ** we should have with the frequence we get
