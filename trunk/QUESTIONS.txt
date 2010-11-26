@@ -1,5 +1,5 @@
 ================================================================================
-1) Décriver les choix de design de votre programme 
+1) Décrivez les choix de design de votre programme 
 ================================================================================
 
 Pour le compilateur:
@@ -10,14 +10,15 @@ Pour le serveur:
  	Serveur classique, initialisation des sockets, de l'adresse.
 	A chaque socket client, on crée un thread indépendant, qui s'occupe
 	de la requête.
+	L'algorithme de Damerau–Levenshtein est dans sa version itératives pour gagner en performance sur les mots de taille importante.
 
 
 ================================================================================
-2) Lister l’ensemble des tests effectués sur votre serveur
+2) Listez l’ensemble des tests effectués sur votre serveur
 (en plus des units tests)
 ================================================================================
 Unit Test pour le compilateur
- -Unit Test Creation de l'arbre
+ -Unit Test Création de l'arbre
  -Unit Test Export/Import de l'arbre
 
 Unit Test pour le serveur
@@ -31,13 +32,13 @@ Unit Test pour le serveur
 fonctionnait pas (même avec une distance élevée) ?
 ================================================================================
 
-Exemple: Sur les dizaines de mots testé avec une distance de 0-1-2
+Exemple: Sur les dizaines de mots testés avec une distance de 0-1-2
 Aucune erreur.
 
 
 ================================================================================
 4) Quelle est la structure de données que vous avez
-implémentées dans votre projet, pourquoi ?
+implémentée dans votre projet, pourquoi ?
 ================================================================================
 
 Arbre Trie en version: premier fils droit frère gauche.
@@ -50,7 +51,7 @@ Malheureusement il nous faut un peu plus de 10 millions de noeuds.
 Nous sommes donc passé à une version totalement dynamique, privilégiant l'espace
 mémoire à la rapidité.
 
-Un noeud contient deux pointeurs, un character et un uint32_t: Sous architecture
+Un noeud contient deux pointeurs, un caractère et un uint32_t: Sous architecture
 32 bits notre noeud occupe donc en mémoire 4 + 4 + 4 + 4 octets == 16 octets.
 
 ================================================================================
@@ -72,7 +73,7 @@ Exemple: Si le mots existe (donc distance de zéro) et à une fréquence de 200.
 	
 	Une façon de décider à quelle niveau de distance le mot le plus probable se trouve.
 		-Une technique proportionnel -- fréquence du mot trouvé / par rapport à la distance X
-		exemple: rapport doit être superieur à 1/20000
+		exemple: rapport doit être supérieur à 1/20000
 		
 		L'on garde selon les niveaux de distance et la fréquence, avec un système de pondération
 		et un max, l'on trouve le mot le plus probable et donc le niveau automatique de distance.
@@ -121,3 +122,4 @@ Il serait même possible d'utiliser une version statique, avec un seuil encore
 plus faible, afin d'avoir des performances en termes de rapidité (peu probables pour 
 du mobile).
 
+De plus dans le cas d'un correcteur orthographique pour la langue en elle-même (sans les mots du style "n9822"), nous pouvons utiliser uniquement les mots du dictionnaire de la langue (environ 350 000 pour la langue française par exemple)
